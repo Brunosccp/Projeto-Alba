@@ -5,8 +5,6 @@
 //  Created by Bruno Rocca on 16/08/2018.
 //  Copyright © 2018 Bruno Rocca. All rights reserved.
 //
-
-import SpriteKit
 import GameplayKit
 
 class GameScene: SKScene {
@@ -21,6 +19,8 @@ class GameScene: SKScene {
     override func sceneDidLoad() {
 
         self.lastUpdateTime = 0
+        
+        let blowMic: BlowIdentifier = BlowIdentifier()
         
         // Get label node from scene and store it for use later
         self.label = self.childNode(withName: "//helloLabel") as? SKLabelNode
