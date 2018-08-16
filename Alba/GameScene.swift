@@ -9,102 +9,109 @@
 import SpriteKit
 import GameplayKit
 
+struct PhysicsCatagory {
+    static let pipaTeste : UInt32 = 0x1 << 1
+    static let testeCasa : UInt32 = 0x1 << 2
+    static let pipaRival : UInt32 = 0x1 << 3
+}
+
 class GameScene: SKScene {
     
-    var entities = [GKEntity]()
-    var graphs = [String : GKGraph]()
-    
-    private var lastUpdateTime : TimeInterval = 0
-    private var label : SKLabelNode?
-    private var spinnyNode : SKShapeNode?
-    
-    override func sceneDidLoad() {
 
-        self.lastUpdateTime = 0
+    //Favela
+    var testeCasa = SKSpriteNode()
+    var pipaTeste = SKSpriteNode()
+    var pipas = SKNode()
+    var moveAndRemove = SKAction()
+    
+    var gameStarted = Bool()
+    
+    override func didMove(to view: SKView) {
+ 
+        testeCasa = SKSpriteNode(imageNamed: "testeCasa")
+        testeCasa.setScale(0.5)
+        testeCasa.position = CGPoint(x: self.frame.width / 2, y: 0 + testeCasa.frame.height / 2)
+    
+        //Fisica e Colisão
+        testeCasa.physicsBody = SKPhysicsBody(rectangleOf: testeCasa.size)
+        testeCasa.physicsBody?.categoryBitMask = PhysicsCatagory.testeCasa
+        testeCasa.physicsBody?.collisionBitMask = PhysicsCatagory.pipaTeste
+        testeCasa.physicsBody?.contactTestBitMask = PhysicsCatagory.pipaTeste
+        testeCasa.physicsBody?.affectedByGravity = false
+        testeCasa.physicsBody?.isDynamic = false
         
-        // Get label node from scene and store it for use later
-        self.label = self.childNode(withName: "//helloLabel") as? SKLabelNode
-        if let label = self.label {
-            label.alpha = 0.0
-            label.run(SKAction.fadeIn(withDuration: 2.0))
-        }
+        self.addChild(testeCasa)
         
-        // Create shape node to use during mouse interaction
-        let w = (self.size.width + self.size.height) * 0.05
-        self.spinnyNode = SKShapeNode.init(rectOf: CGSize.init(width: w, height: w), cornerRadius: w * 0.3)
         
-        if let spinnyNode = self.spinnyNode {
-            spinnyNode.lineWidth = 2.5
-            
-            spinnyNode.run(SKAction.repeatForever(SKAction.rotate(byAngle: CGFloat(Double.pi), duration: 1)))
-            spinnyNode.run(SKAction.sequence([SKAction.wait(forDuration: 0.5),
-                                              SKAction.fadeOut(withDuration: 0.5),
-                                              SKAction.removeFromParent()]))
-        }
+        pipaTeste = SKSpriteNode(imageNamed: "pipaTeste")
+        pipaTeste.size = CGSize(width: 60, height: 70)
+        pipaTeste.position = CGPoint(x: self.frame.width / 2 - pipaTeste.frame.width, y: self.frame.height / 2)
+        
+        pipaTeste.physicsBody = SKPhysicsBody(circleOfRadius: pipaTeste.frame.height / 2)
+        pipaTeste.physicsBody?.categoryBitMask = PhysicsCatagory.pipaTeste
+        pipaTeste.physicsBody?.collisionBitMask = PhysicsCatagory.testeCasa | PhysicsCatagory.pipaRival
+        pipaTeste.physicsBody?.contactTestBitMask = PhysicsCatagory.testeCasa | PhysicsCatagory.pipaRival
+        pipaTeste.physicsBody?.affectedByGravity = true
+        pipaTeste.physicsBody?.isDynamic = true
+        
+        self.addChild(pipaTeste)
+        
+        
     }
     
-    
-    func touchDown(atPoint pos : CGPoint) {
-        if let n = self.spinnyNode?.copy() as! SKShapeNode? {
-            n.position = pos
-            n.strokeColor = SKColor.green
-            self.addChild(n)
-        }
-    }
-    
-    func touchMoved(toPoint pos : CGPoint) {
-        if let n = self.spinnyNode?.copy() as! SKShapeNode? {
-            n.position = pos
-            n.strokeColor = SKColor.blue
-            self.addChild(n)
-        }
-    }
-    
-    func touchUp(atPoint pos : CGPoint) {
-        if let n = self.spinnyNode?.copy() as! SKShapeNode? {
-            n.position = pos
-            n.strokeColor = SKColor.red
-            self.addChild(n)
-        }
-    }
+
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if let label = self.label {
-            label.run(SKAction.init(named: "Pulse")!, withKey: "fadeInOut")
-        }
+        if gameStarted == false{
+            gameStarted = true
+            
+            let spawn  = SKAction.run({
+                () in
+                
+                self.createPipasRivais()
+            })
+            
+            let delay = SKAction.wait(forDuration: 8.0)
+            let spawnDelay = SKAction.sequence([spawn, delay])
+            let spawnDelayForever = SKAction.repeatForever(spawnDelay)
+            self.run(spawnDelayForever)
+            
         
-        for t in touches { self.touchDown(atPoint: t.location(in: self)) }
+            pipaTeste.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
+            pipaTeste.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 90))
+        }else{
+            pipaTeste.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
+            pipaTeste.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 90))
+        }
+     
     }
     
-    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        for t in touches { self.touchMoved(toPoint: t.location(in: self)) }
-    }
-    
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        for t in touches { self.touchUp(atPoint: t.location(in: self)) }
-    }
-    
-    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
-        for t in touches { self.touchUp(atPoint: t.location(in: self)) }
+    func createPipasRivais(){
+        pipas = SKNode()
+        
+        let pipaRival = SKSpriteNode(imageNamed: "pipaRival")
+        
+        pipaRival.position = CGPoint(x: self.frame.width, y: self.frame.height / 2 + 300)
+        pipaRival.size = CGSize(width: 60, height: 70)
+        
+        
+        let distance = CGFloat(self.frame.width + pipas.frame.width)
+        let movePipes = SKAction.moveBy(x: -distance, y: 0, duration: TimeInterval(0.01 * distance))
+        let removePipes = SKAction.removeFromParent()
+            moveAndRemove = SKAction.sequence([movePipes, removePipes])
+        
+        pipaRival.run(moveAndRemove)
+        
+  
+        
+        pipas.addChild(pipaRival)
+        
+        self.addChild(pipas)
+        
     }
     
     
     override func update(_ currentTime: TimeInterval) {
-        // Called before each frame is rendered
-        
-        // Initialize _lastUpdateTime if it has not already been
-        if (self.lastUpdateTime == 0) {
-            self.lastUpdateTime = currentTime
-        }
-        
-        // Calculate time since last update
-        let dt = currentTime - self.lastUpdateTime
-        
-        // Update entities
-        for entity in self.entities {
-            entity.update(deltaTime: dt)
-        }
-        
-        self.lastUpdateTime = currentTime
+    
     }
 }
