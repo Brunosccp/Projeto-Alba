@@ -19,7 +19,7 @@ class GameScene: SKScene {
     
 
     //Favela
-    var testeCasa = SKSpriteNode()
+    var casas = SKSpriteNode()
     var pipaTeste = SKSpriteNode()
     var pipas = SKNode()
     var moveAndRemove = SKAction()
@@ -27,20 +27,8 @@ class GameScene: SKScene {
     var gameStarted = Bool()
     
     override func didMove(to view: SKView) {
- 
-        testeCasa = SKSpriteNode(imageNamed: "testeCasa")
-        testeCasa.setScale(0.5)
-        testeCasa.position = CGPoint(x: self.frame.width / 2, y: 0 + testeCasa.frame.height / 2)
-    
-        //Fisica e Colisão
-        testeCasa.physicsBody = SKPhysicsBody(rectangleOf: testeCasa.size)
-        testeCasa.physicsBody?.categoryBitMask = PhysicsCatagory.testeCasa
-        testeCasa.physicsBody?.collisionBitMask = PhysicsCatagory.pipaTeste
-        testeCasa.physicsBody?.contactTestBitMask = PhysicsCatagory.pipaTeste
-        testeCasa.physicsBody?.affectedByGravity = false
-        testeCasa.physicsBody?.isDynamic = false
         
-        self.addChild(testeCasa)
+        createHouses()
         
         
         pipaTeste = SKSpriteNode(imageNamed: "pipaTeste")
@@ -55,11 +43,35 @@ class GameScene: SKScene {
         pipaTeste.physicsBody?.isDynamic = true
         
         self.addChild(pipaTeste)
-        
-        
     }
     
-
+    //função que cria as casas com o physics body em relação ao alpha da textura
+    func createHouses(){
+        //pegando somente a textura da imagem
+        let casasTextura = SKTexture(imageNamed: "testeCasa")
+        
+        //precisa-se criar uma node com física circular antes de criar a fisica pelo alpha da img
+        let casasCircular = SKSpriteNode(texture: casasTextura)
+        casasCircular.physicsBody = SKPhysicsBody(circleOfRadius: max(casasCircular.size.width / 2, casasCircular.size.height / 2))
+        
+        //criando a física pelo alpha da textura
+        let casasAlpha = SKSpriteNode(texture: casasTextura)
+        casasAlpha.physicsBody = SKPhysicsBody(texture: casasTextura,
+                                               size: CGSize(width: casasCircular.size.width,
+                                                            height: casasCircular.size.height))
+        //definindo escala e posicao da img
+        casasAlpha.setScale(1)
+        casasAlpha.position = CGPoint(x: self.frame.width / 2, y: 0 + casasAlpha.frame.height / 2)
+        
+        //Fisica e Colisão
+        casasAlpha.physicsBody?.categoryBitMask = PhysicsCatagory.testeCasa
+        casasAlpha.physicsBody?.collisionBitMask = PhysicsCatagory.pipaTeste
+        casasAlpha.physicsBody?.contactTestBitMask = PhysicsCatagory.pipaTeste
+        casasAlpha.physicsBody?.affectedByGravity = false
+        casasAlpha.physicsBody?.isDynamic = false
+        
+        self.addChild(casasAlpha)
+    }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         if gameStarted == false{
