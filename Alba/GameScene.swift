@@ -13,12 +13,14 @@ struct PhysicsCatagory {
     static let pipaTeste : UInt32 = 0x1 << 1
     static let testeCasa : UInt32 = 0x1 << 2
     static let pipaRival : UInt32 = 0x1 << 3
+    
+    static let createTriggerCategory: UInt32 = 0x1 << 4
+    static let deleteTriggerCategory: UInt32 = 0x1 << 5
 }
 
 class GameScene: SKScene {
-    
 
-    //Favela
+    //Comunidade
     var casas = SKSpriteNode()
     var pipaTeste = SKSpriteNode()
     var pipas = SKNode()
@@ -26,10 +28,21 @@ class GameScene: SKScene {
     
     var gameStarted = Bool()
     
+    //Gatilhos
+    var createTrigger = SKSpriteNode()
+    
+    //Path para as casas andarem
+    private var path = UIBezierPath()
+    
     override func didMove(to view: SKView) {
+        createTrigger = childNode(withName: "createTrigger") as! SKSpriteNode
+        
+        //criando caminho das casas
+        path.move(to: CGPoint(x: 0, y: 0))
+        path.addLine(to: CGPoint(x: -1000, y: 0))
         
         createHouses()
-        
+
         
         pipaTeste = SKSpriteNode(imageNamed: "pipaTeste")
         pipaTeste.size = CGSize(width: 60, height: 70)
@@ -59,9 +72,9 @@ class GameScene: SKScene {
         casasAlpha.physicsBody = SKPhysicsBody(texture: casasTextura,
                                                size: CGSize(width: casasCircular.size.width,
                                                             height: casasCircular.size.height))
-        //definindo escala e posicao da img
-        casasAlpha.setScale(1)
-        casasAlpha.position = CGPoint(x: self.frame.width / 2, y: 0 + casasAlpha.frame.height / 2)
+        //definindo escala e posicao da img (arrumar pra dinamicamente)
+        casasAlpha.setScale(0.5)
+        casasAlpha.position = CGPoint(x: self.frame.width / 2 + 130, y: 0 + casasAlpha.frame.height / 2)
         
         //Fisica e Colisão
         casasAlpha.physicsBody?.categoryBitMask = PhysicsCatagory.testeCasa
@@ -69,7 +82,13 @@ class GameScene: SKScene {
         casasAlpha.physicsBody?.contactTestBitMask = PhysicsCatagory.pipaTeste
         casasAlpha.physicsBody?.affectedByGravity = false
         casasAlpha.physicsBody?.isDynamic = false
+        casasAlpha.physicsBody?.pinned = false
         
+        let move = SKAction.follow(path.cgPath, asOffset: true, orientToPath: false, speed: 50)
+        casasAlpha.run(move)
+        
+        
+        //casasAlpha.zRotation = 90
         self.addChild(casasAlpha)
     }
     
