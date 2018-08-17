@@ -22,7 +22,6 @@ class GameScene: SKScene {
 
     //Comunidade
     var casas = SKSpriteNode()
-    var pipaTeste = SKSpriteNode()
     var pipas = SKNode()
     var moveAndRemove = SKAction()
     
@@ -34,47 +33,48 @@ class GameScene: SKScene {
     //Path para as casas andarem
     private var path = UIBezierPath()
     
+    var sky = SKSpriteNode()
+    var casasAlpha = SKSpriteNode()
+    var pipa = SKSpriteNode()
+    
     override func didMove(to view: SKView) {
         createTrigger = childNode(withName: "createTrigger") as! SKSpriteNode
+        sky = childNode(withName: "ceu1") as! SKSpriteNode
+        
+        
+        
         
         //criando caminho das casas
         path.move(to: CGPoint(x: 0, y: 0))
         path.addLine(to: CGPoint(x: -1000, y: 0))
         
         createHouses()
-
         
-        pipaTeste = SKSpriteNode(imageNamed: "pipaTeste")
-        pipaTeste.size = CGSize(width: 60, height: 70)
-        pipaTeste.position = CGPoint(x: self.frame.width / 2 - pipaTeste.frame.width, y: self.frame.height / 2)
+        pipa = childNode(withName: "pipa") as! SKSpriteNode
         
-        pipaTeste.physicsBody = SKPhysicsBody(circleOfRadius: pipaTeste.frame.height / 2)
-        pipaTeste.physicsBody?.categoryBitMask = PhysicsCatagory.pipaTeste
-        pipaTeste.physicsBody?.collisionBitMask = PhysicsCatagory.testeCasa | PhysicsCatagory.pipaRival
-        pipaTeste.physicsBody?.contactTestBitMask = PhysicsCatagory.testeCasa | PhysicsCatagory.pipaRival
-        pipaTeste.physicsBody?.affectedByGravity = true
-        pipaTeste.physicsBody?.isDynamic = true
-        
-        self.addChild(pipaTeste)
+        pipa.physicsBody = SKPhysicsBody(circleOfRadius: pipa.frame.height / 2)
+        pipa.physicsBody?.categoryBitMask = PhysicsCatagory.pipaTeste
+        pipa.physicsBody?.collisionBitMask = PhysicsCatagory.testeCasa | PhysicsCatagory.pipaRival
+        pipa.physicsBody?.contactTestBitMask = PhysicsCatagory.testeCasa | PhysicsCatagory.pipaRival
+        pipa.physicsBody?.affectedByGravity = true
+        pipa.physicsBody?.isDynamic = true
     }
     
     //função que cria as casas com o physics body em relação ao alpha da textura
     func createHouses(){
         //pegando somente a textura da imagem
-        let casasTextura = SKTexture(imageNamed: "testeCasa")
+        let casasTextura = SKTexture(imageNamed: "comunidade1")
         
         //precisa-se criar uma node com física circular antes de criar a fisica pelo alpha da img
         let casasCircular = SKSpriteNode(texture: casasTextura)
         casasCircular.physicsBody = SKPhysicsBody(circleOfRadius: max(casasCircular.size.width / 2, casasCircular.size.height / 2))
+        casasCircular.setScale(0.3)
         
         //criando a física pelo alpha da textura
-        let casasAlpha = SKSpriteNode(texture: casasTextura)
+        casasAlpha = childNode(withName: "comunidade1") as! SKSpriteNode
         casasAlpha.physicsBody = SKPhysicsBody(texture: casasTextura,
                                                size: CGSize(width: casasCircular.size.width,
                                                             height: casasCircular.size.height))
-        //definindo escala e posicao da img (arrumar pra dinamicamente)
-        casasAlpha.setScale(0.5)
-        casasAlpha.position = CGPoint(x: self.frame.width / 2 + 130, y: 0 + casasAlpha.frame.height / 2)
         
         //Fisica e Colisão
         casasAlpha.physicsBody?.categoryBitMask = PhysicsCatagory.testeCasa
@@ -89,7 +89,10 @@ class GameScene: SKScene {
         
         
         //casasAlpha.zRotation = 90
-        self.addChild(casasAlpha)
+        //self.addChild(casasAlpha)
+    }
+    func createSky(){
+        
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -108,11 +111,11 @@ class GameScene: SKScene {
             self.run(spawnDelayForever)
             
         
-            pipaTeste.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
-            pipaTeste.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 90))
+            pipa.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
+            pipa.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 30))
         }else{
-            pipaTeste.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
-            pipaTeste.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 90))
+            pipa.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
+            pipa.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 30))
         }
      
     }
@@ -132,8 +135,6 @@ class GameScene: SKScene {
             moveAndRemove = SKAction.sequence([movePipes, removePipes])
         
         pipaRival.run(moveAndRemove)
-        
-  
         
         pipas.addChild(pipaRival)
         
