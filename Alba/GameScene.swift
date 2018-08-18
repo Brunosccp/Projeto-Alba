@@ -18,7 +18,6 @@ struct PhysicsCatagory {
     static let pipaRival : UInt32 = 0x1 << 5
     
     static let communityTrigger: UInt32 = 0x1 << 6
-    static let deleteTriggerCategory: UInt32 = 0x1 << 7
 }
 
 class GameScene: SKScene {
@@ -37,14 +36,17 @@ class GameScene: SKScene {
     
     //Comunidade
     var sky = SKSpriteNode()
-    var comunidade: [SKSpriteNode]! = []
+    var comunidade: [SKSpriteNode] = []
     var pipa = SKSpriteNode()
+    
+    //Fisica da comunidade
+    var communityPhysicsBody: [SKPhysicsBody] = []
     
     override func didMove(to view: SKView) {
         
         //criando caminho das casas
         path.move(to: CGPoint(x: 0, y: 0))
-        path.addLine(to: CGPoint(x: -3000, y: 0))
+        path.addLine(to: CGPoint(x: -5000, y: 0))
         
         createSky()
         createHouses()
@@ -75,10 +77,13 @@ class GameScene: SKScene {
         
         //criando a física pelo alfa da textura
         for i in 0...2{
-        comunidade.append(childNode(withName: "comunidade\(i+1)") as! SKSpriteNode)
-        comunidade[i].physicsBody = SKPhysicsBody(texture: comunidadeTextura[i],
-                                               size: CGSize(width: casasCircular[i].size.width,
-                                                            height: casasCircular[i].size.height))
+            comunidade.append(childNode(withName: "comunidade\(i+1)") as! SKSpriteNode)
+            
+            //salvando as propiedades físicas da comunidade na lista
+            communityPhysicsBody.append(SKPhysicsBody(texture: comunidadeTextura[i],
+                                                          size: CGSize(width: casasCircular[i].size.width, height: casasCircular[i].size.height)))
+            
+            comunidade[i].physicsBody = communityPhysicsBody[i]
         }
         
         //Fisica e Colisão
@@ -185,27 +190,34 @@ extension GameScene : SKPhysicsContactDelegate{
     func didBegin(_ contact: SKPhysicsContact){
         let bodyA = contact.bodyA.categoryBitMask
         let bodyB = contact.bodyB.categoryBitMask
-        let bodyANode = contact.bodyA.node!
-        let bodyBNode = contact.bodyB.node!
-        
         
         if(bodyB == PhysicsCatagory.community[0] && PhysicsCatagory.communityAlreadyHit[0] == false){
             PhysicsCatagory.communityAlreadyHit[2] = false
             PhysicsCatagory.communityAlreadyHit[0] = true
             
             print("hora do community 2 ir para a posicao final")
+            comunidade[2].physicsBody = nil //desativando a fisica, pois se não a comunidade não muda de posição
+            comunidade[2].position = CGPoint(x: 2316.201, y: 167.5)
+            comunidade[2].physicsBody = communityPhysicsBody[2] //reativando a física
+            
         }
         else if(bodyB == PhysicsCatagory.community[1] && PhysicsCatagory.communityAlreadyHit[1] == false){
             PhysicsCatagory.communityAlreadyHit[0] = false
             PhysicsCatagory.communityAlreadyHit[1] = true
             
             print("hora do community 0 ir para a posicao final")
+            comunidade[0].physicsBody = nil //desativando a fisica, pois se não a comunidade não muda de posição
+            comunidade[0].position = CGPoint(x: 2382.951, y: 184.7)
+            comunidade[0].physicsBody = communityPhysicsBody[0] //reativando a física
         }
         else if(bodyB == PhysicsCatagory.community[2] && PhysicsCatagory.communityAlreadyHit[2] == false){
             PhysicsCatagory.communityAlreadyHit[1] = false
             PhysicsCatagory.communityAlreadyHit[2] = true
             
             print("hora do community 1 ir para a posicao final")
+            comunidade[1].physicsBody = nil //desativando a fisica, pois se não a comunidade não muda de posição
+            comunidade[1].position = CGPoint(x: 2382.951, y: 187.7)
+            comunidade[1].physicsBody = communityPhysicsBody[1] //reativando a física
         }
         
         //print("o contato foi entre \(bodyANode.name!) e \(bodyBNode.name!)")
