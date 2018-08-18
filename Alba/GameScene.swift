@@ -35,8 +35,8 @@ class GameScene: SKScene {
     private var path = UIBezierPath()
     
     //Comunidade
-    var sky = SKSpriteNode()
-    var comunidade: [SKSpriteNode] = []
+    var sky: [SKSpriteNode] = []
+    var community: [SKSpriteNode] = []
     var pipa = SKSpriteNode()
     
     //Fisica da comunidade
@@ -77,33 +77,43 @@ class GameScene: SKScene {
         
         //criando a física pelo alfa da textura
         for i in 0...2{
-            comunidade.append(childNode(withName: "comunidade\(i+1)") as! SKSpriteNode)
+            community.append(childNode(withName: "comunidade\(i+1)") as! SKSpriteNode)
             
             //salvando as propiedades físicas da comunidade na lista
             communityPhysicsBody.append(SKPhysicsBody(texture: comunidadeTextura[i],
                                                           size: CGSize(width: casasCircular[i].size.width, height: casasCircular[i].size.height)))
             
-            comunidade[i].physicsBody = communityPhysicsBody[i]
+            community[i].physicsBody = communityPhysicsBody[i]
         }
         
         //Fisica e Colisão
         for i in 0...2{
-            comunidade[i].physicsBody?.categoryBitMask = PhysicsCatagory.community[i]
-            comunidade[i].physicsBody?.collisionBitMask = PhysicsCatagory.pipa
-            comunidade[i].physicsBody?.contactTestBitMask = PhysicsCatagory.pipa
-            comunidade[i].physicsBody?.affectedByGravity = false
-            comunidade[i].physicsBody?.isDynamic = false
-            comunidade[i].physicsBody?.pinned = false
+            community[i].physicsBody?.categoryBitMask = PhysicsCatagory.community[i]
+            community[i].physicsBody?.collisionBitMask = PhysicsCatagory.pipa
+            community[i].physicsBody?.contactTestBitMask = PhysicsCatagory.pipa
+            community[i].physicsBody?.affectedByGravity = false
+            community[i].physicsBody?.isDynamic = false
+            community[i].physicsBody?.pinned = false
         }
-        
+        //fazendo action de comunidades irem como uma esteira para a esquerda
         for i in 0...2{
             let move = SKAction.follow(path.cgPath, asOffset: true, orientToPath: false, speed: 50)
-            comunidade[i].run(move)
+            community[i].run(move)
         }
         
     }
     func createSky(){
-        sky = childNode(withName: "ceu1") as! SKSpriteNode
+        //ligando os céus do gameScene com o código
+        for i in 0...2{
+            sky.append(childNode(withName: "ceu\(i+1)") as! SKSpriteNode)
+            
+            //ligando a movimentação para a esquerda com os céus
+            let move = SKAction.follow(path.cgPath, asOffset: true, orientToPath: false, speed: 50)
+            sky[i].run(move) 
+        }
+        
+        
+        
         
     }
     func createKite(){
@@ -179,11 +189,9 @@ class GameScene: SKScene {
         
     }
     
-    
     override func update(_ currentTime: TimeInterval) {
     
     }
-    
     
 }
 extension GameScene : SKPhysicsContactDelegate{
@@ -195,29 +203,43 @@ extension GameScene : SKPhysicsContactDelegate{
             PhysicsCatagory.communityAlreadyHit[2] = false
             PhysicsCatagory.communityAlreadyHit[0] = true
             
-            print("hora do community 2 ir para a posicao final")
-            comunidade[2].physicsBody = nil //desativando a fisica, pois se não a comunidade não muda de posição
-            comunidade[2].position = CGPoint(x: 2316.201, y: 167.5)
-            comunidade[2].physicsBody = communityPhysicsBody[2] //reativando a física
+            //print("hora do community 2 ir para a posicao final")
             
+            //jogando community para o final da esteira
+            community[2].physicsBody = nil //desativando a fisica, pois se não a comunidade não muda de posição
+            community[2].position = CGPoint(x: 2316.201, y: 167.5)
+            community[2].physicsBody = communityPhysicsBody[2] //reativando a física
+            
+            //jogando o céu para o final da esteira
+            sky[2].position = CGPoint(x: 2316.201, y: 188.7)
         }
         else if(bodyB == PhysicsCatagory.community[1] && PhysicsCatagory.communityAlreadyHit[1] == false){
             PhysicsCatagory.communityAlreadyHit[0] = false
             PhysicsCatagory.communityAlreadyHit[1] = true
             
-            print("hora do community 0 ir para a posicao final")
-            comunidade[0].physicsBody = nil //desativando a fisica, pois se não a comunidade não muda de posição
-            comunidade[0].position = CGPoint(x: 2382.951, y: 184.7)
-            comunidade[0].physicsBody = communityPhysicsBody[0] //reativando a física
+            //print("hora do community 0 ir para a posicao final")
+            
+            //jogando community para o final da esteira
+            community[0].physicsBody = nil //desativando a fisica, pois se não a comunidade não muda de posição
+            community[0].position = CGPoint(x: 2382.951, y: 184.7)
+            community[0].physicsBody = communityPhysicsBody[0] //reativando a física
+            
+            //jogando o céu para o final da esteira
+            sky[0].position = CGPoint(x: 2382.651, y: 188.7)
         }
         else if(bodyB == PhysicsCatagory.community[2] && PhysicsCatagory.communityAlreadyHit[2] == false){
             PhysicsCatagory.communityAlreadyHit[1] = false
             PhysicsCatagory.communityAlreadyHit[2] = true
             
-            print("hora do community 1 ir para a posicao final")
-            comunidade[1].physicsBody = nil //desativando a fisica, pois se não a comunidade não muda de posição
-            comunidade[1].position = CGPoint(x: 2382.951, y: 187.7)
-            comunidade[1].physicsBody = communityPhysicsBody[1] //reativando a física
+            //print("hora do community 1 ir para a posicao final")
+            
+            //jogando community para o final da esteira
+            community[1].physicsBody = nil //desativando a fisica, pois se não a comunidade não muda de posição
+            community[1].position = CGPoint(x: 2382.951, y: 187.7)
+            community[1].physicsBody = communityPhysicsBody[1] //reativando a física
+            
+            //jogando o céu para o final da esteira
+            sky[1].position = CGPoint(x: 2382.65, y: 188.7)
         }
         
         //print("o contato foi entre \(bodyANode.name!) e \(bodyBNode.name!)")
