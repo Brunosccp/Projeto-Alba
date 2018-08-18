@@ -10,58 +10,53 @@ import SpriteKit
 import GameplayKit
 
 struct PhysicsCatagory {
-    static let pipaTeste : UInt32 = 0x1 << 1
-    static let comunidade : [UInt32] = [0x1 << 2, 0x1 << 3, 0x1 << 4]
+    static let pipa : UInt32 = 0x1 << 1
+    
+    static let community : [UInt32] = [0x1 << 2, 0x1 << 3, 0x1 << 4]
+    static var communityAlreadyHit: [Bool] = [false, false, false]
+    
     static let pipaRival : UInt32 = 0x1 << 5
     
-    static let createTriggerCategory: UInt32 = 0x1 << 6
+    static let communityTrigger: UInt32 = 0x1 << 6
     static let deleteTriggerCategory: UInt32 = 0x1 << 7
 }
 
 class GameScene: SKScene {
 
     //Comunidade
-    var casas = SKSpriteNode()
     var pipas = SKNode()
     var moveAndRemove = SKAction()
     
     var gameStarted = Bool()
     
     //Gatilhos
-    var createTrigger = SKSpriteNode()
+    var comunnityTrigger = SKSpriteNode()
     
     //Path para as casas andarem
     private var path = UIBezierPath()
     
+    //Comunidade
     var sky = SKSpriteNode()
-    var casasAlpha: [SKSpriteNode]! = []
     var comunidade: [SKSpriteNode]! = []
     var pipa = SKSpriteNode()
     
     override func didMove(to view: SKView) {
-        createTrigger = childNode(withName: "createTrigger") as! SKSpriteNode
-        sky = childNode(withName: "ceu1") as! SKSpriteNode
-        
-        
-        
         
         //criando caminho das casas
         path.move(to: CGPoint(x: 0, y: 0))
-        path.addLine(to: CGPoint(x: -1000, y: 0))
+        path.addLine(to: CGPoint(x: -3000, y: 0))
         
+        createSky()
         createHouses()
         
-        pipa = childNode(withName: "pipa") as! SKSpriteNode
+        createTriggers()
         
-        pipa.physicsBody = SKPhysicsBody(circleOfRadius: pipa.frame.height / 2)
-        pipa.physicsBody?.categoryBitMask = PhysicsCatagory.pipaTeste
-        pipa.physicsBody?.collisionBitMask = PhysicsCatagory.comunidade[0] | PhysicsCatagory.comunidade[1] | PhysicsCatagory.comunidade[2] | PhysicsCatagory.pipaRival
-        pipa.physicsBody?.contactTestBitMask = PhysicsCatagory.comunidade[0]|PhysicsCatagory.comunidade[1] | PhysicsCatagory.comunidade[2] | PhysicsCatagory.pipaRival
-        pipa.physicsBody?.affectedByGravity = true
-        pipa.physicsBody?.isDynamic = true
+        createKite()
+        
+        self.physicsWorld.contactDelegate = self
     }
     
-    //função que cria as casas com o physics body em relação ao alpha da textura
+    //função que cria as casas com o physics body em relação ao alfa da textura
     func createHouses(){
         var casasCircular: [SKSpriteNode] = []
         
@@ -71,14 +66,14 @@ class GameScene: SKScene {
             comunidadeTextura.append(SKTexture(imageNamed: "comunidade\(i+1)"))
         }
         
-        //precisa-se criar uma node com física circular antes de criar a fisica pelo alpha da img
+        //precisa-se criar node com física circular antes de criar a fisica pelo alfa da img
         for i in 0...2{
             casasCircular.append(SKSpriteNode(texture: comunidadeTextura[i]))
             casasCircular[i].physicsBody = SKPhysicsBody(circleOfRadius: max(casasCircular[i].size.width / 2, casasCircular[i].size.height / 2))
             casasCircular[i].setScale(0.3)
         }
         
-        //criando a física pelo alpha da textura
+        //criando a física pelo alfa da textura
         for i in 0...2{
         comunidade.append(childNode(withName: "comunidade\(i+1)") as! SKSpriteNode)
         comunidade[i].physicsBody = SKPhysicsBody(texture: comunidadeTextura[i],
@@ -88,9 +83,9 @@ class GameScene: SKScene {
         
         //Fisica e Colisão
         for i in 0...2{
-            comunidade[i].physicsBody?.categoryBitMask = PhysicsCatagory.comunidade[i]
-            comunidade[i].physicsBody?.collisionBitMask = PhysicsCatagory.pipaTeste
-            comunidade[i].physicsBody?.contactTestBitMask = PhysicsCatagory.pipaTeste
+            comunidade[i].physicsBody?.categoryBitMask = PhysicsCatagory.community[i]
+            comunidade[i].physicsBody?.collisionBitMask = PhysicsCatagory.pipa
+            comunidade[i].physicsBody?.contactTestBitMask = PhysicsCatagory.pipa
             comunidade[i].physicsBody?.affectedByGravity = false
             comunidade[i].physicsBody?.isDynamic = false
             comunidade[i].physicsBody?.pinned = false
@@ -103,6 +98,32 @@ class GameScene: SKScene {
         
     }
     func createSky(){
+        sky = childNode(withName: "ceu1") as! SKSpriteNode
+        
+    }
+    func createKite(){
+        pipa = childNode(withName: "pipa") as! SKSpriteNode
+        
+        pipa.physicsBody = SKPhysicsBody(circleOfRadius: pipa.frame.height / 2)
+        pipa.physicsBody?.categoryBitMask = PhysicsCatagory.pipa
+        pipa.physicsBody?.collisionBitMask = PhysicsCatagory.community[0] | PhysicsCatagory.community[1] | PhysicsCatagory.community[2] | PhysicsCatagory.pipaRival
+        pipa.physicsBody?.contactTestBitMask = PhysicsCatagory.community[0]|PhysicsCatagory.community[1] | PhysicsCatagory.community[2] | PhysicsCatagory.pipaRival
+        pipa.physicsBody?.affectedByGravity = true
+        pipa.physicsBody?.isDynamic = true
+    }
+    func createTriggers(){
+        comunnityTrigger = childNode(withName: "communityTrigger") as! SKSpriteNode
+        
+        comunnityTrigger.physicsBody = SKPhysicsBody(rectangleOf: comunnityTrigger.size)
+        
+        comunnityTrigger.physicsBody?.categoryBitMask = PhysicsCatagory.communityTrigger
+        comunnityTrigger.physicsBody?.contactTestBitMask = PhysicsCatagory.community[0] | PhysicsCatagory.community[1] | PhysicsCatagory.community[2]
+        comunnityTrigger.physicsBody?.collisionBitMask = 0
+        comunnityTrigger.physicsBody?.affectedByGravity = false
+        
+        
+        
+        self.physicsWorld.contactDelegate = self
         
     }
     
@@ -156,5 +177,37 @@ class GameScene: SKScene {
     
     override func update(_ currentTime: TimeInterval) {
     
+    }
+    
+    
+}
+extension GameScene : SKPhysicsContactDelegate{
+    func didBegin(_ contact: SKPhysicsContact){
+        let bodyA = contact.bodyA.categoryBitMask
+        let bodyB = contact.bodyB.categoryBitMask
+        let bodyANode = contact.bodyA.node!
+        let bodyBNode = contact.bodyB.node!
+        
+        
+        if(bodyB == PhysicsCatagory.community[0] && PhysicsCatagory.communityAlreadyHit[0] == false){
+            PhysicsCatagory.communityAlreadyHit[2] = false
+            PhysicsCatagory.communityAlreadyHit[0] = true
+            
+            print("hora do community 2 ir para a posicao final")
+        }
+        else if(bodyB == PhysicsCatagory.community[1] && PhysicsCatagory.communityAlreadyHit[1] == false){
+            PhysicsCatagory.communityAlreadyHit[0] = false
+            PhysicsCatagory.communityAlreadyHit[1] = true
+            
+            print("hora do community 0 ir para a posicao final")
+        }
+        else if(bodyB == PhysicsCatagory.community[2] && PhysicsCatagory.communityAlreadyHit[2] == false){
+            PhysicsCatagory.communityAlreadyHit[1] = false
+            PhysicsCatagory.communityAlreadyHit[2] = true
+            
+            print("hora do community 1 ir para a posicao final")
+        }
+        
+        //print("o contato foi entre \(bodyANode.name!) e \(bodyBNode.name!)")
     }
 }
