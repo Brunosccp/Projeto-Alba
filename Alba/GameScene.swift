@@ -39,6 +39,8 @@ class GameScene: SKScene {
     var community: [SKSpriteNode] = []
     var kite = SKSpriteNode()
     var kiteAttacher = SKSpriteNode()
+    var kiteLine = UIBezierPath()
+    
     //Frames da animação da pipa
     private var kiteFlyingFrames: [SKTexture] = []
 
@@ -62,7 +64,7 @@ class GameScene: SKScene {
         createAttacher()
         createKite()
         animateKite()
-        
+        createKiteLine()
         
         
         self.physicsWorld.contactDelegate = self
@@ -124,8 +126,20 @@ class GameScene: SKScene {
         
         
         
-        
     }
+    func createTriggers(){
+        comunnityTrigger = childNode(withName: "communityTrigger") as! SKSpriteNode
+        
+        comunnityTrigger.physicsBody = SKPhysicsBody(rectangleOf: comunnityTrigger.size)
+        
+        comunnityTrigger.physicsBody?.categoryBitMask = PhysicsCatagory.communityTrigger
+        comunnityTrigger.physicsBody?.contactTestBitMask = PhysicsCatagory.community[0] | PhysicsCatagory.community[1] | PhysicsCatagory.community[2]
+        comunnityTrigger.physicsBody?.collisionBitMask = 0
+        comunnityTrigger.physicsBody?.affectedByGravity = false
+        
+        self.physicsWorld.contactDelegate = self
+    }
+    
     func createKite(){
         kite = childNode(withName: "pipa") as! SKSpriteNode
         kite.physicsBody?.collisionBitMask = 0
@@ -143,19 +157,6 @@ class GameScene: SKScene {
         kiteFlyingFrames = flyFrames
         
     }
-    func createTriggers(){
-        comunnityTrigger = childNode(withName: "communityTrigger") as! SKSpriteNode
-        
-        comunnityTrigger.physicsBody = SKPhysicsBody(rectangleOf: comunnityTrigger.size)
-        
-        comunnityTrigger.physicsBody?.categoryBitMask = PhysicsCatagory.communityTrigger
-        comunnityTrigger.physicsBody?.contactTestBitMask = PhysicsCatagory.community[0] | PhysicsCatagory.community[1] | PhysicsCatagory.community[2]
-        comunnityTrigger.physicsBody?.collisionBitMask = 0
-        comunnityTrigger.physicsBody?.affectedByGravity = false
-        
-        self.physicsWorld.contactDelegate = self
-    }
-    
     func createAttacher(){
         //atrelando com o gameScene
         kiteAttacher = childNode(withName: "attacher") as! SKSpriteNode
@@ -167,6 +168,26 @@ class GameScene: SKScene {
         
         let move = AnimationPath.get()
         kiteAttacher.run(move)
+    }
+    func createKiteLine(){
+        //
+        kiteLine.move(to: CGPoint(x: 0, y: 100))
+        kiteLine.addLine(to: kiteAttacher.position)
+        
+        let line = SKShapeNode()
+        line.path = kiteLine.cgPath
+        line.zPosition = -3
+        line.strokeColor = UIColor.white
+        line.lineWidth = 2
+        addChild(line)
+        
+        Timer.scheduledTimer(withTimeInterval: 0.04, repeats: true, block: {_ in
+            self.kiteLine.removeAllPoints()
+            self.kiteLine.move(to: CGPoint(x: 0, y: 100))
+            self.kiteLine.addLine(to: self.kiteAttacher.position)
+            
+            line.path = self.kiteLine.cgPath
+        })
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {

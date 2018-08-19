@@ -69,7 +69,6 @@ class AnimationPath{
         singlePath.removeAllPoints()
         singlePath.move(to: CGPoint(x: 0, y: 0))
         singlePath.addLine(to: CGPoint(x: -41.543, y: 14.058))
-        
         action = SKAction.follow(singlePath.cgPath, asOffset: true, orientToPath: false, duration: 3.6 / divider)
         actions.append(action)
         
