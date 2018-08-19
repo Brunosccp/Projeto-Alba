@@ -129,6 +129,7 @@ class GameScene: SKScene {
         //pipa.physicsBody?.mass = 1
         
         //print("MASSA DA PIPA: ",pipa.physicsBody?.mass)
+        pipa.physicsBody?.collisionBitMask = 0
         
         //criando o atlas
         let kiteAnimatedAtlas = SKTextureAtlas(named: "Pipa")
@@ -159,7 +160,7 @@ class GameScene: SKScene {
     func createAttacher(){
         //atrelando
         kiteAttacher = childNode(withName: "attacher") as! SKSpriteNode
-        
+        kiteAttacher.physicsBody?.collisionBitMask = 0
         
         
         let move = AnimationPath.get()
@@ -184,10 +185,12 @@ class GameScene: SKScene {
         
             pipa.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
             pipa.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 3))
+            kiteAttacher.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
             kiteAttacher.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 3))
         }else{
             pipa.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
             pipa.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 3))
+            kiteAttacher.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
             kiteAttacher.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 3))
         }
      
