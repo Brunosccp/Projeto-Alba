@@ -55,7 +55,7 @@ class GameScene: SKScene {
         
         //criando caminho das casas
         path.move(to: CGPoint(x: 0, y: 0))
-        path.addLine(to: CGPoint(x: -5000, y: 0))
+        path.addLine(to: CGPoint(x: -1000, y: 0))
         
         //criando cenário
         createSky()
@@ -112,9 +112,9 @@ class GameScene: SKScene {
             community[i].physicsBody?.pinned = false
         }
         //fazendo action de comunidades irem como uma esteira para a esquerda
+        let move = SKAction.follow(path.cgPath, asOffset: true, orientToPath: false, speed: 50)
         for i in 0...2{
-            let move = SKAction.follow(path.cgPath, asOffset: true, orientToPath: false, speed: 50)
-            community[i].run(move)
+            community[i].run(SKAction.repeatForever(move))
         }
         
     }
@@ -125,7 +125,7 @@ class GameScene: SKScene {
             
             //ligando a movimentação para a esquerda com os céus
             let move = SKAction.follow(path.cgPath, asOffset: true, orientToPath: false, speed: 50)
-            sky[i].run(move) 
+            sky[i].run(SKAction.repeatForever(move)) 
         }
         
         
@@ -244,7 +244,6 @@ class GameScene: SKScene {
         pipas.addChild(pipaRival)
         
         self.addChild(pipas)
-        
     }
     
     func animateKite(){
