@@ -38,7 +38,10 @@ class GameScene: SKScene {
     var sky: [SKSpriteNode] = []
     var community: [SKSpriteNode] = []
     var pipa = SKSpriteNode()
-    
+
+    //Frames da animação da pipa
+    private var kiteFlyingFrames: [SKTexture] = []
+
     //Fisica da comunidade
     var communityPhysicsBody: [SKPhysicsBody] = []
     
@@ -119,12 +122,16 @@ class GameScene: SKScene {
     func createKite(){
         pipa = childNode(withName: "pipa") as! SKSpriteNode
         
-        pipa.physicsBody = SKPhysicsBody(circleOfRadius: pipa.frame.height / 2)
+        //pegando o tamanho da textura da pipa e convertendo para a escala 0.5
+        let kiteSize = CGSize(width: pipa.texture!.size().width * 0.5, height: pipa.texture!.size().height * 0.5)
+        
+        pipa.physicsBody = SKPhysicsBody(texture: pipa.texture!, size: kiteSize)
         pipa.physicsBody?.categoryBitMask = PhysicsCatagory.pipa
         pipa.physicsBody?.collisionBitMask = PhysicsCatagory.community[0] | PhysicsCatagory.community[1] | PhysicsCatagory.community[2] | PhysicsCatagory.pipaRival
         pipa.physicsBody?.contactTestBitMask = PhysicsCatagory.community[0]|PhysicsCatagory.community[1] | PhysicsCatagory.community[2] | PhysicsCatagory.pipaRival
         pipa.physicsBody?.affectedByGravity = true
         pipa.physicsBody?.isDynamic = true
+        
     }
     func createTriggers(){
         comunnityTrigger = childNode(withName: "communityTrigger") as! SKSpriteNode
@@ -136,10 +143,7 @@ class GameScene: SKScene {
         comunnityTrigger.physicsBody?.collisionBitMask = 0
         comunnityTrigger.physicsBody?.affectedByGravity = false
         
-        
-        
         self.physicsWorld.contactDelegate = self
-        
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -159,10 +163,10 @@ class GameScene: SKScene {
             
         
             pipa.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
-            pipa.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 30))
+            pipa.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 10))
         }else{
             pipa.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
-            pipa.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 30))
+            pipa.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 10))
         }
      
     }
@@ -199,6 +203,7 @@ extension GameScene : SKPhysicsContactDelegate{
         let bodyA = contact.bodyA.categoryBitMask
         let bodyB = contact.bodyB.categoryBitMask
         
+        //verificando se as comunidades bateram no trigger, assim joga elas e o céu para o final da esteira
         if(bodyB == PhysicsCatagory.community[0] && PhysicsCatagory.communityAlreadyHit[0] == false){
             PhysicsCatagory.communityAlreadyHit[2] = false
             PhysicsCatagory.communityAlreadyHit[0] = true
