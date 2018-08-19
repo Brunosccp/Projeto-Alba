@@ -126,15 +126,9 @@ class GameScene: SKScene {
     func createKite(){
         pipa = childNode(withName: "pipa") as! SKSpriteNode
         
-        //pegando o tamanho da textura da pipa e convertendo para a escala 0.2 (o dobro da do gameScene n faço idéia pq)
-        let kiteSize = CGSize(width: pipa.texture!.size().width * 0.1, height: pipa.texture!.size().height * 0.1)
+        //pipa.physicsBody?.mass = 1
         
-        pipa.physicsBody = SKPhysicsBody()
-        pipa.physicsBody?.categoryBitMask = PhysicsCatagory.pipa
-        pipa.physicsBody?.collisionBitMask = PhysicsCatagory.community[0] | PhysicsCatagory.community[1] | PhysicsCatagory.community[2] | PhysicsCatagory.pipaRival | PhysicsCatagory.kiteAttacher
-        pipa.physicsBody?.contactTestBitMask = PhysicsCatagory.community[0]|PhysicsCatagory.community[1] | PhysicsCatagory.community[2] | PhysicsCatagory.pipaRival | PhysicsCatagory.kiteAttacher
-        pipa.physicsBody?.affectedByGravity = false
-        pipa.physicsBody?.isDynamic = true
+        //print("MASSA DA PIPA: ",pipa.physicsBody?.mass)
         
         //criando o atlas
         let kiteAnimatedAtlas = SKTextureAtlas(named: "Pipa")
@@ -189,10 +183,12 @@ class GameScene: SKScene {
             
         
             pipa.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
-            pipa.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 100))
+            pipa.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 3))
+            kiteAttacher.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 3))
         }else{
             pipa.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
-            pipa.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 100))
+            pipa.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 3))
+            kiteAttacher.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 3))
         }
      
     }
@@ -229,14 +225,12 @@ class GameScene: SKScene {
 //            self.pipa.physicsBody?.categoryBitMask = PhysicsCatagory.pipa
 //        })
         
-        Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true, block: {_ in
-            let bool = self.pipa.intersects(self.community[0])
-            if(bool){
-                print("TOCOU AE")
-            }
+        Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true, block:{_ in
+            print("posição da bodega: ", self.kiteAttacher.position)
             
             
-        })
+            })
+        
         pipa.run(actionRepeatForever, withKey: "FlyingKite")
     }
     func recreateKitePhysicsBody(){
