@@ -79,10 +79,10 @@
 			children = (
 				15F250DF2125EFDE00E584CD /* AppDelegate.swift */,
 				15F250F72126013800E584CD /* Reserva.swift */,
+				15F250E52125EFDE00E584CD /* GameScene.swift */,
 				15F250E12125EFDE00E584CD /* GameScene.sks */,
 				1533F58121290FB7000190F9 /* Pipa.atlas */,
 				15F250E32125EFDE00E584CD /* Actions.sks */,
-				15F250E52125EFDE00E584CD /* GameScene.swift */,
 				1533F52C21287055000190F9 /* Extensions.swift */,
 				15F250E72125EFDE00E584CD /* GameViewController.swift */,
 				15F250E92125EFDE00E584CD /* Main.storyboard */,

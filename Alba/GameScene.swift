@@ -57,6 +57,7 @@ class GameScene: SKScene {
         createTriggers()
         
         createKite()
+        animateKite()
         
         self.physicsWorld.contactDelegate = self
     }
@@ -75,7 +76,7 @@ class GameScene: SKScene {
         for i in 0...2{
             casasCircular.append(SKSpriteNode(texture: comunidadeTextura[i]))
             casasCircular[i].physicsBody = SKPhysicsBody(circleOfRadius: max(casasCircular[i].size.width / 2, casasCircular[i].size.height / 2))
-            casasCircular[i].setScale(0.3)
+            casasCircular[i].setScale(0.25)
         }
         
         //criando a física pelo alfa da textura
@@ -122,10 +123,8 @@ class GameScene: SKScene {
     func createKite(){
         pipa = childNode(withName: "pipa") as! SKSpriteNode
         
-        //pegando o tamanho da textura da pipa e convertendo para a escala 0.5
-        let kiteSize = CGSize(width: pipa.texture!.size().width * 0.2, height: pipa.texture!.size().height * 0.2)
-        
-        print("tamanho da pipa", kiteSize)
+        //pegando o tamanho da textura da pipa e convertendo para a escala 0.2 (o dobro da do gameScene n faço idéia pq)
+        let kiteSize = CGSize(width: pipa.texture!.size().width * 0.1, height: pipa.texture!.size().height * 0.1)
         
         pipa.physicsBody = SKPhysicsBody(texture: pipa.texture!, size: kiteSize)
         pipa.physicsBody?.categoryBitMask = PhysicsCatagory.pipa
@@ -134,6 +133,17 @@ class GameScene: SKScene {
         pipa.physicsBody?.affectedByGravity = true
         pipa.physicsBody?.isDynamic = true
         
+        //criando o atlas
+        let kiteAnimatedAtlas = SKTextureAtlas(named: "Pipa")
+        var flyFrames: [SKTexture] = []
+        
+        let numImages = kiteAnimatedAtlas.textureNames.count
+        
+        for i in 0..<numImages{
+            let kiteTextureName = String(format: "tentativa1_%05d", i)
+            flyFrames.append(kiteAnimatedAtlas.textureNamed(kiteTextureName))
+        }
+        kiteFlyingFrames = flyFrames
     }
     func createTriggers(){
         comunnityTrigger = childNode(withName: "communityTrigger") as! SKSpriteNode
@@ -165,10 +175,10 @@ class GameScene: SKScene {
             
         
             pipa.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
-            pipa.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 10))
+            pipa.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 2))
         }else{
             pipa.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
-            pipa.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 10))
+            pipa.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 2))
         }
      
     }
@@ -195,6 +205,12 @@ class GameScene: SKScene {
         
     }
     
+    func animateKite(){
+        let actionRepeatForever = SKAction.repeatForever(SKAction.animate(with: kiteFlyingFrames, timePerFrame: 0.04, resize: false, restore: false))
+        
+        pipa.run(actionRepeatForever, withKey: "FlyingKite")
+    }
+    
     override func update(_ currentTime: TimeInterval) {
     
     }
@@ -214,11 +230,11 @@ extension GameScene : SKPhysicsContactDelegate{
             
             //jogando community para o final da esteira
             community[2].physicsBody = nil //desativando a fisica, pois se não a comunidade não muda de posição
-            community[2].position = CGPoint(x: 2316.201, y: 167.5)
+            community[2].position = CGPoint(x: 1930.375, y: 140)
             community[2].physicsBody = communityPhysicsBody[2] //reativando a física
             
             //jogando o céu para o final da esteira
-            sky[2].position = CGPoint(x: 2316.201, y: 188.7)
+            sky[2].position = CGPoint(x: 1930.375, y: 219.75)
         }
         else if(bodyB == PhysicsCatagory.community[1] && PhysicsCatagory.communityAlreadyHit[1] == false){
             PhysicsCatagory.communityAlreadyHit[0] = false
@@ -228,11 +244,11 @@ extension GameScene : SKPhysicsContactDelegate{
             
             //jogando community para o final da esteira
             community[0].physicsBody = nil //desativando a fisica, pois se não a comunidade não muda de posição
-            community[0].position = CGPoint(x: 2382.951, y: 184.7)
+            community[0].position = CGPoint(x: 1986.01, y: 154.6)
             community[0].physicsBody = communityPhysicsBody[0] //reativando a física
             
             //jogando o céu para o final da esteira
-            sky[0].position = CGPoint(x: 2382.651, y: 188.7)
+            sky[0].position = CGPoint(x: 1985.75, y: 219.75)
         }
         else if(bodyB == PhysicsCatagory.community[2] && PhysicsCatagory.communityAlreadyHit[2] == false){
             PhysicsCatagory.communityAlreadyHit[1] = false
@@ -242,11 +258,11 @@ extension GameScene : SKPhysicsContactDelegate{
             
             //jogando community para o final da esteira
             community[1].physicsBody = nil //desativando a fisica, pois se não a comunidade não muda de posição
-            community[1].position = CGPoint(x: 2382.951, y: 187.7)
+            community[1].position = CGPoint(x: 1985.749, y: 154)
             community[1].physicsBody = communityPhysicsBody[1] //reativando a física
             
             //jogando o céu para o final da esteira
-            sky[1].position = CGPoint(x: 2382.65, y: 188.7)
+            sky[1].position = CGPoint(x: 1985.75, y: 219.75)
         }
         
         //print("o contato foi entre \(bodyANode.name!) e \(bodyBNode.name!)")
