@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1533F52D21287055000190F9 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1533F52C21287055000190F9 /* Extensions.swift */; };
 		1533F58221290FB7000190F9 /* Pipa.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 1533F58121290FB7000190F9 /* Pipa.atlas */; };
 		15F250E02125EFDE00E584CD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F250DF2125EFDE00E584CD /* AppDelegate.swift */; };
 		15F250E22125EFDE00E584CD /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 15F250E12125EFDE00E584CD /* GameScene.sks */; };
@@ -24,7 +23,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		1533F52C21287055000190F9 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		1533F58121290FB7000190F9 /* Pipa.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; name = Pipa.atlas; path = cenarios/Pipa.atlas; sourceTree = SOURCE_ROOT; };
 		15F250DC2125EFDE00E584CD /* Alba.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Alba.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		15F250DF2125EFDE00E584CD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -83,7 +81,6 @@
 				15F250E12125EFDE00E584CD /* GameScene.sks */,
 				1533F58121290FB7000190F9 /* Pipa.atlas */,
 				15F250E32125EFDE00E584CD /* Actions.sks */,
-				1533F52C21287055000190F9 /* Extensions.swift */,
 				15F250E72125EFDE00E584CD /* GameViewController.swift */,
 				15F250E92125EFDE00E584CD /* Main.storyboard */,
 				15F250EC2125EFDE00E584CD /* Assets.xcassets */,
@@ -214,7 +211,6 @@
 				15F250E82125EFDE00E584CD /* GameViewController.swift in Sources */,
 				15F250FC2126015A00E584CD /* Reserva2.swift in Sources */,
 				15F250E02125EFDE00E584CD /* AppDelegate.swift in Sources */,
-				1533F52D21287055000190F9 /* Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
