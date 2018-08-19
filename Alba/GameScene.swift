@@ -251,10 +251,16 @@ class GameScene: SKScene {
         let actionRepeatForever = SKAction.repeatForever(SKAction.animate(with: kiteFlyingFrames, timePerFrame: 0.04, resize: false, restore: false))
         
         Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true, block:{_ in
+            //"teto! de sopro pra pipa nao subir muito
+            if(self.kiteAttacher.position.y > 300){
+                return
+            }
             
+            //pega a força do sopro (3 = forte, 2 = médio, 1 = fraco, 0 = nada)
             let blowStrenght  = self.blow.getAmplitude()
             print(self.blow.getAmplitude())
             
+            //dá o impulso de acordo com a força do sopro
             if(blowStrenght >= 3){
                 self.kite.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
                 self.kite.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 2))
