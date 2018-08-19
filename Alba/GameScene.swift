@@ -10,7 +10,6 @@ import SpriteKit
 import GameplayKit
 
 struct PhysicsCatagory {
-    static let pipa : UInt32 = 0x1 << 1
     
     static let community : [UInt32] = [0x1 << 2, 0x1 << 3, 0x1 << 4]
     static var communityAlreadyHit: [Bool] = [false, false, false]
@@ -96,8 +95,8 @@ class GameScene: SKScene {
         //Fisica e Colisão
         for i in 0...2{
             community[i].physicsBody?.categoryBitMask = PhysicsCatagory.community[i]
-            community[i].physicsBody?.collisionBitMask = PhysicsCatagory.pipa
-            community[i].physicsBody?.contactTestBitMask = PhysicsCatagory.pipa
+            community[i].physicsBody?.collisionBitMask = PhysicsCatagory.kiteAttacher
+            community[i].physicsBody?.contactTestBitMask = PhysicsCatagory.kiteAttacher
             community[i].physicsBody?.affectedByGravity = false
             community[i].physicsBody?.isDynamic = false
             community[i].physicsBody?.pinned = false
@@ -125,10 +124,6 @@ class GameScene: SKScene {
     }
     func createKite(){
         pipa = childNode(withName: "pipa") as! SKSpriteNode
-        
-        //pipa.physicsBody?.mass = 1
-        
-        //print("MASSA DA PIPA: ",pipa.physicsBody?.mass)
         pipa.physicsBody?.collisionBitMask = 0
         
         //criando o atlas
@@ -161,7 +156,8 @@ class GameScene: SKScene {
         //atrelando
         kiteAttacher = childNode(withName: "attacher") as! SKSpriteNode
         kiteAttacher.physicsBody?.collisionBitMask = 0
-        
+        kiteAttacher.physicsBody?.categoryBitMask = PhysicsCatagory.kiteAttacher
+        kiteAttacher.physicsBody?.contactTestBitMask = PhysicsCatagory.community[0] | PhysicsCatagory.community[1] | PhysicsCatagory.community[2]
         
         let move = AnimationPath.get()
         kiteAttacher.run(move)
@@ -184,14 +180,16 @@ class GameScene: SKScene {
             
         
             pipa.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
-            pipa.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 3))
+            pipa.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 1))
+            
             kiteAttacher.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
-            kiteAttacher.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 3))
+            kiteAttacher.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 1))
         }else{
             pipa.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
-            pipa.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 3))
+            pipa.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 1))
+            
             kiteAttacher.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
-            kiteAttacher.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 3))
+            kiteAttacher.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 1))
         }
      
     }
@@ -221,15 +219,8 @@ class GameScene: SKScene {
     func animateKite(){
         let actionRepeatForever = SKAction.repeatForever(SKAction.animate(with: kiteFlyingFrames, timePerFrame: 0.04, resize: false, restore: false))
         
-//        Timer.scheduledTimer(withTimeInterval: 0.4, repeats: true, block: {_ in
-//            let kiteSize = CGSize(width: self.pipa.texture!.size().width * 0.1, height: self.pipa.texture!.size().height * 0.1)
-//
-//            self.pipa.physicsBody = SKPhysicsBody(texture: self.pipa.texture!, size: kiteSize)
-//            self.pipa.physicsBody?.categoryBitMask = PhysicsCatagory.pipa
-//        })
-        
         Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true, block:{_ in
-            print("posição da bodega: ", self.kiteAttacher.position)
+            //print("posição da bodega: ", self.kiteAttacher.position)
             
             
             })
@@ -297,14 +288,16 @@ extension GameScene : SKPhysicsContactDelegate{
         }
         
         //
-        if(bodyB == PhysicsCatagory.pipa){
-            //self.view?.window?.rootViewController?.performSegue(withIdentifier: "gameOver", sender: self)
-            print("Entrou")
+        for i in 0...2{
+            if((bodyA == PhysicsCatagory.community[i]) && bodyB == PhysicsCatagory.kiteAttacher){
+                //self.view?.window?.rootViewController?.performSegue(withIdentifier: "gameOver", sender: self)
+                print("Entrou")
+            }
         }
         
         
         
-        //print("o contato foi entre \(contact.bodyA.node?.name) e \(contact.bodyB.node?.name) bodyB: \(bodyB) e pipa: \(PhysicsCatagory.pipa)")
+        //print("o contato foi entre \(contact.bodyA.node?.name) e \(contact.bodyB.node?.name) bodyB: \(bodyB)")
         
     }
 }
