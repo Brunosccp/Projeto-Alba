@@ -123,7 +123,9 @@ class GameScene: SKScene {
         pipa = childNode(withName: "pipa") as! SKSpriteNode
         
         //pegando o tamanho da textura da pipa e convertendo para a escala 0.5
-        let kiteSize = CGSize(width: pipa.texture!.size().width * 0.5, height: pipa.texture!.size().height * 0.5)
+        let kiteSize = CGSize(width: pipa.texture!.size().width * 0.2, height: pipa.texture!.size().height * 0.2)
+        
+        print("tamanho da pipa", kiteSize)
         
         pipa.physicsBody = SKPhysicsBody(texture: pipa.texture!, size: kiteSize)
         pipa.physicsBody?.categoryBitMask = PhysicsCatagory.pipa
