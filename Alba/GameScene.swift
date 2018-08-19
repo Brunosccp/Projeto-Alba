@@ -47,6 +47,10 @@ class GameScene: SKScene {
     //Fisica da comunidade
     var communityPhysicsBody: [SKPhysicsBody] = []
     
+    //microfone
+    let blow = BlowIdentifier.init()
+
+    
     override func didMove(to view: SKView) {
         
         //criando caminho das casas
@@ -247,7 +251,29 @@ class GameScene: SKScene {
         let actionRepeatForever = SKAction.repeatForever(SKAction.animate(with: kiteFlyingFrames, timePerFrame: 0.04, resize: false, restore: false))
         
         Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true, block:{_ in
-            //print("posição da bodega: ", self.kiteAttacher.position)
+            
+            let blowStrenght  = self.blow.getAmplitude()
+            print(self.blow.getAmplitude())
+            
+            if(blowStrenght >= 3){
+                self.kite.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
+                self.kite.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 2))
+                
+                self.kiteAttacher.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
+                self.kiteAttacher.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 2))
+            }else if(blowStrenght >= 2){
+                self.kite.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
+                self.kite.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 1.5))
+                
+                self.kiteAttacher.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
+                self.kiteAttacher.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 1.5))
+            }else if(blowStrenght >= 1){
+                self.kite.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
+                self.kite.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 1))
+                
+                self.kiteAttacher.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
+                self.kiteAttacher.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 1))
+            }
             
             })
         
@@ -317,7 +343,7 @@ extension GameScene : SKPhysicsContactDelegate{
         for i in 0...2{
             if((bodyA == PhysicsCatagory.community[i]) && bodyB == PhysicsCatagory.kiteAttacher){
                 //self.view?.window?.rootViewController?.performSegue(withIdentifier: "gameOver", sender: self)
-                print("GAME OVER VIADO")
+                //print("GAME OVER VIADO")
             }
         }
         
