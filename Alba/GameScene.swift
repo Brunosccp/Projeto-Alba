@@ -10,14 +10,13 @@ import SpriteKit
 import GameplayKit
 
 struct PhysicsCatagory {
-    
+    static let kiteAttacher: UInt32 = 0x1 << 1
     static let community : [UInt32] = [0x1 << 2, 0x1 << 3, 0x1 << 4]
     static var communityAlreadyHit: [Bool] = [false, false, false]
     
     static let pipaRival : UInt32 = 0x1 << 5
     
     static let communityTrigger: UInt32 = 0x1 << 6
-    static let kiteAttacher: UInt32 = 0x1 << 7
 }
 
 class GameScene: SKScene {
@@ -38,7 +37,7 @@ class GameScene: SKScene {
     //Comunidade
     var sky: [SKSpriteNode] = []
     var community: [SKSpriteNode] = []
-    var pipa = SKSpriteNode()
+    var kite = SKSpriteNode()
     var kiteAttacher = SKSpriteNode()
     //Frames da animação da pipa
     private var kiteFlyingFrames: [SKTexture] = []
@@ -52,14 +51,19 @@ class GameScene: SKScene {
         path.move(to: CGPoint(x: 0, y: 0))
         path.addLine(to: CGPoint(x: -5000, y: 0))
         
+        //criando cenário
         createSky()
         createHouses()
         
+        //criando gatilho para esteira
         createTriggers()
-        createAttacher()
         
+        //criando pipa e seu attacher
+        createAttacher()
         createKite()
         animateKite()
+        
+        
         
         self.physicsWorld.contactDelegate = self
     }
@@ -123,8 +127,8 @@ class GameScene: SKScene {
         
     }
     func createKite(){
-        pipa = childNode(withName: "pipa") as! SKSpriteNode
-        pipa.physicsBody?.collisionBitMask = 0
+        kite = childNode(withName: "pipa") as! SKSpriteNode
+        kite.physicsBody?.collisionBitMask = 0
         
         //criando o atlas
         let kiteAnimatedAtlas = SKTextureAtlas(named: "Pipa")
@@ -153,8 +157,10 @@ class GameScene: SKScene {
     }
     
     func createAttacher(){
-        //atrelando
+        //atrelando com o gameScene
         kiteAttacher = childNode(withName: "attacher") as! SKSpriteNode
+        
+        //
         kiteAttacher.physicsBody?.collisionBitMask = 0
         kiteAttacher.physicsBody?.categoryBitMask = PhysicsCatagory.kiteAttacher
         kiteAttacher.physicsBody?.contactTestBitMask = PhysicsCatagory.community[0] | PhysicsCatagory.community[1] | PhysicsCatagory.community[2]
@@ -179,14 +185,14 @@ class GameScene: SKScene {
             self.run(spawnDelayForever)
             
         
-            pipa.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
-            pipa.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 1))
+            kite.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
+            kite.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 1))
             
             kiteAttacher.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
             kiteAttacher.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 1))
         }else{
-            pipa.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
-            pipa.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 1))
+            kite.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
+            kite.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 1))
             
             kiteAttacher.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
             kiteAttacher.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 1))
@@ -222,15 +228,14 @@ class GameScene: SKScene {
         Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true, block:{_ in
             //print("posição da bodega: ", self.kiteAttacher.position)
             
-            
             })
         
-        pipa.run(actionRepeatForever, withKey: "FlyingKite")
+        kite.run(actionRepeatForever, withKey: "FlyingKite")
     }
     func recreateKitePhysicsBody(){
-        let kiteSize = CGSize(width: pipa.texture!.size().width * 0.1, height: pipa.texture!.size().height * 0.1)
+        let kiteSize = CGSize(width: kite.texture!.size().width * 0.1, height: kite.texture!.size().height * 0.1)
         
-        pipa.physicsBody = SKPhysicsBody(texture: pipa.texture!, size: kiteSize)
+        kite.physicsBody = SKPhysicsBody(texture: kite.texture!, size: kiteSize)
     }
     
     override func update(_ currentTime: TimeInterval) {
@@ -287,11 +292,11 @@ extension GameScene : SKPhysicsContactDelegate{
             sky[1].position = CGPoint(x: 1985.75, y: 219.75)
         }
         
-        //
+        //testando se o kiteAttacher bateu numa das comunidades, no caso causando game over
         for i in 0...2{
             if((bodyA == PhysicsCatagory.community[i]) && bodyB == PhysicsCatagory.kiteAttacher){
                 //self.view?.window?.rootViewController?.performSegue(withIdentifier: "gameOver", sender: self)
-                print("Entrou")
+                print("GAME OVER VIADO")
             }
         }
         
