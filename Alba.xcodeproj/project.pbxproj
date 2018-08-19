@@ -78,6 +78,7 @@
 				15F250DF2125EFDE00E584CD /* AppDelegate.swift */,
 				15F250F72126013800E584CD /* Reserva.swift */,
 				15F250E52125EFDE00E584CD /* GameScene.swift */,
+				15F250FD2126016200E584CD /* Reserva3.swift */,
 				15F250E12125EFDE00E584CD /* GameScene.sks */,
 				1533F58121290FB7000190F9 /* Pipa.atlas */,
 				15F250E32125EFDE00E584CD /* Actions.sks */,
@@ -87,7 +88,6 @@
 				15F250EE2125EFDE00E584CD /* LaunchScreen.storyboard */,
 				15F250F12125EFDE00E584CD /* Info.plist */,
 				15F250FB2126015A00E584CD /* Reserva2.swift */,
-				15F250FD2126016200E584CD /* Reserva3.swift */,
 			);
 			path = Alba;
 			sourceTree = "<group>";

@@ -34,13 +34,13 @@ class GameScene: SKScene {
     
     //Path para as casas andarem
     private var path = UIBezierPath()
+    private var attacherPath = UIBezierPath()
     
     //Comunidade
     var sky: [SKSpriteNode] = []
     var community: [SKSpriteNode] = []
     var pipa = SKSpriteNode()
-    var kiteAttacher = SKPhysicsJoint()
-
+    var kiteAttacher = SKSpriteNode()
     //Frames da animação da pipa
     private var kiteFlyingFrames: [SKTexture] = []
 
@@ -57,6 +57,7 @@ class GameScene: SKScene {
         createHouses()
         
         createTriggers()
+        createAttacher()
         
         createKite()
         animateKite()
@@ -132,7 +133,7 @@ class GameScene: SKScene {
         pipa.physicsBody?.categoryBitMask = PhysicsCatagory.pipa
         pipa.physicsBody?.collisionBitMask = PhysicsCatagory.community[0] | PhysicsCatagory.community[1] | PhysicsCatagory.community[2] | PhysicsCatagory.pipaRival | PhysicsCatagory.kiteAttacher
         pipa.physicsBody?.contactTestBitMask = PhysicsCatagory.community[0]|PhysicsCatagory.community[1] | PhysicsCatagory.community[2] | PhysicsCatagory.pipaRival | PhysicsCatagory.kiteAttacher
-        pipa.physicsBody?.affectedByGravity = true
+        pipa.physicsBody?.affectedByGravity = false
         pipa.physicsBody?.isDynamic = true
         
         //criando o atlas
@@ -147,12 +148,6 @@ class GameScene: SKScene {
         }
         kiteFlyingFrames = flyFrames
         
-        
-        //criando o attacher
-        
-        
-        
-        
     }
     func createTriggers(){
         comunnityTrigger = childNode(withName: "communityTrigger") as! SKSpriteNode
@@ -165,6 +160,16 @@ class GameScene: SKScene {
         comunnityTrigger.physicsBody?.affectedByGravity = false
         
         self.physicsWorld.contactDelegate = self
+    }
+    
+    func createAttacher(){
+        //atrelando
+        kiteAttacher = childNode(withName: "attacher") as! SKSpriteNode
+        
+        
+        
+        let move = AnimationPath.get()
+        kiteAttacher.run(move)
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
