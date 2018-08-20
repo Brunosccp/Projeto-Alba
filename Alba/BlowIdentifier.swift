@@ -33,13 +33,13 @@ class BlowIdentifier{
         
     }
     func getAmplitude() -> Int{
-        if(tracker.amplitude > 0.3){
+        if(tracker.amplitude > 0.5){
             return 3
         }
-        if(tracker.amplitude > 0.2){
+        if(tracker.amplitude > 0.4){
             return 2
         }
-        if(tracker.amplitude > 0.1){
+        if(tracker.amplitude > 0.3){
             return 1
         }
         

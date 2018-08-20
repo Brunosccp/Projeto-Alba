@@ -262,7 +262,7 @@ class GameScene: SKScene {
         kite.run(actionRepeatForever, withKey: "FlyingKite")
     }
     func startObserveBlow(){
-        Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true, block:{thread in
+        Timer.scheduledTimer(withTimeInterval: 0.06, repeats: true, block:{thread in
             //"teto! de sopro pra pipa nao subir muito
             if(self.kiteAttacher.position.y > 300){
                 return
@@ -275,22 +275,22 @@ class GameScene: SKScene {
             //dá o impulso de acordo com a força do sopro
             if(blowStrenght >= 3){
                 self.kite.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
-                self.kite.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 2))
+                self.kite.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 1.65))
                 
                 self.kiteAttacher.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
-                self.kiteAttacher.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 2))
+                self.kiteAttacher.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 1.65))
             }else if(blowStrenght >= 2){
                 self.kite.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
-                self.kite.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 1.5))
+                self.kite.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 1.15))
                 
                 self.kiteAttacher.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
-                self.kiteAttacher.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 1.5))
+                self.kiteAttacher.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 1.15))
             }else if(blowStrenght >= 1){
                 self.kite.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
-                self.kite.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 1))
+                self.kite.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 0.65))
                 
                 self.kiteAttacher.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
-                self.kiteAttacher.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 1))
+                self.kiteAttacher.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 0.65))
             }
             
             if(self.gameStarted == false){
