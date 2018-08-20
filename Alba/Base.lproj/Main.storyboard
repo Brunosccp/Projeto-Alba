@@ -94,7 +94,7 @@
                         <viewLayoutGuide key="safeArea" id="4qk-I5-YsI"/>
                     </view>
                     <connections>
-                        <segue destination="kaq-lu-e9D" kind="show" identifier="gameOver" id="KF1-0F-feS"/>
+                        <segue destination="WHn-Bo-ALh" kind="show" identifier="gameOver" id="63u-ru-zhs"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SZV-WD-TEh" sceneMemberID="firstResponder"/>
@@ -113,14 +113,28 @@
                                 <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VL2-bT-ymB">
+                                <rect key="frame" x="147" y="282" width="373" height="55"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="55" id="mdI-bI-Byz"/>
+                                    <constraint firstAttribute="width" constant="373" id="xUz-DT-HVt"/>
+                                </constraints>
+                                <connections>
+                                    <segue destination="BV1-FR-VrT" kind="show" id="Jy3-EH-IRP"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="VL2-bT-ymB" firstAttribute="centerX" secondItem="D1U-Eg-eoK" secondAttribute="centerX" id="ErH-bS-LaX"/>
+                            <constraint firstItem="NjR-41-xKF" firstAttribute="bottom" secondItem="VL2-bT-ymB" secondAttribute="bottom" constant="38" id="fpX-OW-a7k"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="NjR-41-xKF"/>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Rzo-GC-ZtE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1599.8500749625189" y="132"/>
+            <point key="canvasLocation" x="1593.5532233883059" y="93.599999999999994"/>
         </scene>
     </scenes>
     <resources>
@@ -128,4 +142,7 @@
         <image name="Tela_tutorial.png" width="667" height="375"/>
         <image name="tela_Jogar.png" width="667" height="375"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="Jy3-EH-IRP"/>
+    </inferredMetricsTieBreakers>
 </document>
