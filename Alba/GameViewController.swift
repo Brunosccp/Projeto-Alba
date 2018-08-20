@@ -27,6 +27,14 @@ var blow: BlowIdentifier?
 
 class GameViewController: UIViewController {
     
+    override func motionBegan(_ motion: UIEventSubtype, with event: UIEvent?) {
+        if motion == .motionShake {
+            if let skView = view as? SKView, let scene = skView.scene as? GameScene {
+                scene.shake()
+            }
+        }
+    }
+    
     func theFunction(){
         struct Holder { static var called = false }
         
@@ -38,12 +46,15 @@ class GameViewController: UIViewController {
         }
     }
     
+    var shake = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         theFunction()
         // Load 'GameScene.sks' as a GKScene. This provides gameplay related content
         // including entities and graphs.
+        
         
         
         if let scene = GKScene(fileNamed: "GameScene") {
@@ -73,6 +84,10 @@ class GameViewController: UIViewController {
         return true
     }
 
+    func teste(){
+        
+    }
+    
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         if UIDevice.current.userInterfaceIdiom == .phone {
             return .allButUpsideDown

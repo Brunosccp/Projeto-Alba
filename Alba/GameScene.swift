@@ -49,6 +49,9 @@ class GameScene: SKScene {
     var kiteRivalLine = UIBezierPath()
     let rivalKiteNodeLine = SKShapeNode()
     
+    //Boolean se os fios da sua pipa e do inimigo estão se tocando
+    var isTouching = false
+    
     //Frames da animação da pipa
     private var kiteFlyingFrames: [SKTexture] = []
 
@@ -86,6 +89,7 @@ class GameScene: SKScene {
         //
         startObserveBlow()
         observeLineContact()
+        
         
         self.physicsWorld.contactDelegate = self
     }
@@ -283,9 +287,11 @@ class GameScene: SKScene {
     func observeLineContact(){
         Timer.scheduledTimer(withTimeInterval: 0.04, repeats: true, block: {thread in
             if(self.kiteNodeLine.intersects(self.rivalKiteNodeLine)){
-                print("OS FIOS TAO SE TOCAAAANDO")
-            }
+                self.isTouching = true
             
+            }else{
+                self.isTouching = false
+            }
             
             if(self.gameStarted == false){
                 thread.invalidate()
@@ -356,6 +362,17 @@ class GameScene: SKScene {
                 thread.invalidate()
             }
         })
+    }
+    func shake(){
+        print("SHAKEEEE")
+        if(isTouching == true){
+            
+            
+            rivalKiteNodeLine.removeFromParent()
+            isTouching = false
+        }else{
+            return
+        }
     }
 
 }
