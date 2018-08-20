@@ -43,6 +43,10 @@ class GameScene: SKScene {
     var kiteAttacher = SKSpriteNode()
     var kiteLine = UIBezierPath()
     
+    //pipa rival
+    var rivalKite = SKSpriteNode()
+    let kiteRivalLine = UIBezierPath()
+    
     //Frames da animação da pipa
     private var kiteFlyingFrames: [SKTexture] = []
 
@@ -72,6 +76,8 @@ class GameScene: SKScene {
         createKite()
         animateKite()
         createKiteLine()
+        createRivalKites()
+        createRivalLines()
         
         //
         startObserveBlow()
@@ -201,6 +207,43 @@ class GameScene: SKScene {
                 thread.invalidate()
             }
         })
+    }
+    
+    func createRivalKites(){
+        //atrelando com o gameScene
+        rivalKite = childNode(withName: "rivalKite") as! SKSpriteNode
+        
+        
+        
+        
+        let move = AnimationPath.get()
+        rivalKite.run(move)
+        let moveLeft = SKAction.follow(path.cgPath, asOffset: true, orientToPath: false, speed: 50)
+        rivalKite.run(SKAction.repeatForever(moveLeft))
+    }
+    func createRivalLines(){
+        kiteRivalLine.move(to: CGPoint(x: self.frame.maxX, y: 100))
+        kiteRivalLine.addLine(to: rivalKite.position)
+        
+        let line = SKShapeNode()
+        line.path = kiteRivalLine.cgPath
+        line.zPosition = -3
+        line.strokeColor = UIColor.white
+        line.lineWidth = 2
+        addChild(line)
+        
+        Timer.scheduledTimer(withTimeInterval: 0.04, repeats: true, block: {thread in
+            self.kiteLine.removeAllPoints()
+            self.kiteLine.move(to: CGPoint(x: self.rivalKite.position.x + 200, y: 100))
+            self.kiteLine.addLine(to: self.rivalKite.position)
+            
+            line.path = self.kiteLine.cgPath
+            
+            if(self.gameStarted == false){
+                thread.invalidate()
+            }
+        })
+        
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {

@@ -22,7 +22,7 @@ import GameplayKit
 //
 //Repasse no código para não sofrer com SIGABRT
 
-//deixar esse troço global foi a unica solução perdão william =(
+//deixar esse troço global foi a unica solução, perdão william =(
 var blow: BlowIdentifier?
 
 class GameViewController: UIViewController {
