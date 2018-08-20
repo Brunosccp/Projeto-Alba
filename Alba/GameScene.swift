@@ -52,8 +52,27 @@ class GameScene: SKScene {
     //microfone
     var blow: BlowIdentifier? = nil
 
+    //label de score
+    var scoreLabel = SKLabelNode()
+    var counter = 0
+    var counterTimer = Timer()
+    var counterStartValue = 0
+    
+
     
     override func didMove(to view: SKView) {
+        
+        //Score
+        scoreLabel = childNode(withName: "scoreLabel") as! SKLabelNode
+      
+        scoreLabel.text = "Score: \(counter)"
+        //scoreLabel.fontName = ""
+        //scoreLabel.fontSize =
+        
+        counter = counterStartValue
+        startCounter()
+        
+        
         
         
         //criando caminho das casas
@@ -77,6 +96,17 @@ class GameScene: SKScene {
         startObserveBlow()
         
         self.physicsWorld.contactDelegate = self
+    }
+    
+    //Score
+    func startCounter(){
+        counterTimer = Timer.scheduledTimer(timeInterval: 3.0, target: self, selector: #selector(incrementCounter), userInfo: nil, repeats: true)
+    }
+    
+    
+    @objc func incrementCounter(){
+        counter += 10
+        scoreLabel.text = "Score: \(counter)"
     }
     
     //função que cria as casas com o physics body em relação ao alfa da textura
@@ -123,6 +153,9 @@ class GameScene: SKScene {
         }
         
     }
+    
+
+    
     func createSky(){
         //ligando os céus do gameScene com o código
         for i in 0...2{
