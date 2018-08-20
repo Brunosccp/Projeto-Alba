@@ -15,33 +15,49 @@ import GameplayKit
 //
 //    　　 /)─―ヘ
 //　　　＿／　　　　＼
-//　 ／　  　●　　　●丶...
+//　 ／　  　●　　　●丶
 //　｜　　　　　　　▼　|
 //　｜　　　　　　　亠ノ
 //　 U￣U￣￣￣￣U
 //
 //Repasse no código para não sofrer com SIGABRT
 
-class GameViewController: UIViewController {
+//deixar esse troço global foi a unica solução perdão william =(
+var blow: BlowIdentifier?
 
+class GameViewController: UIViewController {
+    
+    func theFunction(){
+        struct Holder { static var called = false }
+        
+        if !Holder.called {
+            Holder.called = true
+            //do the thing
+            print("uma vez na vida")
+            blow = BlowIdentifier()
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        theFunction()
         // Load 'GameScene.sks' as a GKScene. This provides gameplay related content
         // including entities and graphs.
+        
+        
         if let scene = GKScene(fileNamed: "GameScene") {
-            
             // Get the SKScene from the loaded GKScene
             if let sceneNode = scene.rootNode as! GameScene? {
-                
-              
-                
                 // Set the scale mode to scale to fit the window
                 sceneNode.scaleMode = .aspectFill
+                sceneNode.viewController = self
+                sceneNode.blow = blow
                 
                 // Present the scene
                 if let view = self.view as! SKView? {
                     view.presentScene(sceneNode)
+                    
                     
                     view.ignoresSiblingOrder = true
                     

@@ -11,9 +11,6 @@ import AudioKit
 import AudioKitUI
 
 class BlowIdentifier{
-    @IBOutlet private var audioInputPlot: EZAudioPlot!
-    
-    
     var mic: AKMicrophone!
     var tracker: AKFrequencyTracker!
     var silence: AKBooster!
@@ -33,12 +30,6 @@ class BlowIdentifier{
         } catch {
             AKLog("AudioKit did not start!")
         }
-//        Timer.scheduledTimer(timeInterval: 0.01,
-//                             target: self,
-//                             selector: #selector(updateUI),
-//                             userInfo: nil,
-//                             repeats: true)
-        
         
     }
     func getAmplitude() -> Int{
@@ -54,6 +45,11 @@ class BlowIdentifier{
         
         return 0
         
+    }
+    func stop(){
+        mic.stop()
+        AudioKit.disconnectAllInputs()
+        //self.audioInputPlot.
     }
     
     @objc func updateUI(){

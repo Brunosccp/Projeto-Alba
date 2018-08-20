@@ -21,11 +21,13 @@ struct PhysicsCategory {
 
 class GameScene: SKScene {
 
+    var viewController: UIViewController?
+    
     //Comunidade
     var pipas = SKNode()
     var moveAndRemove = SKAction()
     
-    var gameStarted = Bool()
+    var gameStarted = true
     
     //Gatilhos
     var comunnityTrigger = SKSpriteNode()
@@ -48,10 +50,11 @@ class GameScene: SKScene {
     var communityPhysicsBody: [SKPhysicsBody] = []
     
     //microfone
-    let blow = BlowIdentifier.init()
+    var blow: BlowIdentifier? = nil
 
     
     override func didMove(to view: SKView) {
+        
         
         //criando caminho das casas
         path.move(to: CGPoint(x: 0, y: 0))
@@ -70,6 +73,8 @@ class GameScene: SKScene {
         animateKite()
         createKiteLine()
         
+        //
+        startObserveBlow()
         
         self.physicsWorld.contactDelegate = self
     }
@@ -185,12 +190,16 @@ class GameScene: SKScene {
         line.lineWidth = 2
         addChild(line)
         
-        Timer.scheduledTimer(withTimeInterval: 0.04, repeats: true, block: {_ in
+        Timer.scheduledTimer(withTimeInterval: 0.04, repeats: true, block: {thread in
             self.kiteLine.removeAllPoints()
             self.kiteLine.move(to: CGPoint(x: 0, y: 100))
             self.kiteLine.addLine(to: self.kiteAttacher.position)
             
             line.path = self.kiteLine.cgPath
+            
+            if(self.gameStarted == false){
+                thread.invalidate()
+            }
         })
     }
     
@@ -249,15 +258,19 @@ class GameScene: SKScene {
     func animateKite(){
         let actionRepeatForever = SKAction.repeatForever(SKAction.animate(with: kiteFlyingFrames, timePerFrame: 0.04, resize: false, restore: false))
         
-        Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true, block:{_ in
+        
+        kite.run(actionRepeatForever, withKey: "FlyingKite")
+    }
+    func startObserveBlow(){
+        Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true, block:{thread in
             //"teto! de sopro pra pipa nao subir muito
             if(self.kiteAttacher.position.y > 300){
                 return
             }
             
             //pega a força do sopro (3 = forte, 2 = médio, 1 = fraco, 0 = nada)
-            let blowStrenght  = self.blow.getAmplitude()
-            print(self.blow.getAmplitude())
+            let blowStrenght = self.blow!.getAmplitude()
+            print(self.blow!.getAmplitude())
             
             //dá o impulso de acordo com a força do sopro
             if(blowStrenght >= 3){
@@ -280,14 +293,10 @@ class GameScene: SKScene {
                 self.kiteAttacher.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 1))
             }
             
-            })
-        
-        kite.run(actionRepeatForever, withKey: "FlyingKite")
-    }
-    func recreateKitePhysicsBody(){
-        let kiteSize = CGSize(width: kite.texture!.size().width * 0.1, height: kite.texture!.size().height * 0.1)
-        
-        kite.physicsBody = SKPhysicsBody(texture: kite.texture!, size: kiteSize)
+            if(self.gameStarted == false){
+                thread.invalidate()
+            }
+        })
     }
 
     
@@ -344,8 +353,20 @@ extension GameScene : SKPhysicsContactDelegate{
         //testando se o kiteAttacher bateu numa das comunidades, no caso causando game over
         for i in 0...2{
             if((bodyA == PhysicsCategory.community[i]) && bodyB == PhysicsCategory.kiteAttacher){
-                //self.view?.window?.rootViewController?.performSegue(withIdentifier: "gameOver", sender: self)
-                //print("GAME OVER VIADO")
+                
+                //parando toda gameScene para evitar memory leak
+                self.removeAllActions()
+                self.removeAllChildren()
+                self.removeFromParent()
+                
+                
+                //blow?.stop()
+                gameStarted = false
+                
+                
+                
+                self.viewController?.performSegue(withIdentifier: "gameOver", sender: self)
+                print("GAME OVER VIADO")
             }
         }
         
