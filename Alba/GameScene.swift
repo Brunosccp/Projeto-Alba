@@ -352,8 +352,9 @@ extension GameScene : SKPhysicsContactDelegate{
         
         //testando se o kiteAttacher bateu numa das comunidades, no caso causando game over
         for i in 0...2{
-            if((bodyA == PhysicsCategory.community[i]) && bodyB == PhysicsCategory.kiteAttacher){
-                
+            if (bodyA == PhysicsCategory.community[i] && bodyB == PhysicsCategory.kiteAttacher) ||
+                (bodyB == PhysicsCategory.community[i] && bodyA == PhysicsCategory.kiteAttacher)
+            {
                 //parando toda gameScene para evitar memory leak
                 self.removeAllActions()
                 self.removeAllChildren()
