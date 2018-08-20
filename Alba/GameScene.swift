@@ -42,6 +42,12 @@ class GameScene: SKScene {
     var kite = SKSpriteNode()
     var kiteAttacher = SKSpriteNode()
     var kiteLine = UIBezierPath()
+    var kiteNodeLine = SKShapeNode()
+    
+    //Pipas rivais
+    var rivalKite = SKSpriteNode()
+    var kiteRivalLine = UIBezierPath()
+    let rivalKiteNodeLine = SKShapeNode()
     
     //Frames da animação da pipa
     private var kiteFlyingFrames: [SKTexture] = []
@@ -73,8 +79,13 @@ class GameScene: SKScene {
         animateKite()
         createKiteLine()
         
+        //criando pipas rivais
+        createRivalKites()
+        createRivalLines()
+        
         //
         startObserveBlow()
+        observeLineContact()
         
         self.physicsWorld.contactDelegate = self
     }
@@ -183,19 +194,18 @@ class GameScene: SKScene {
         kiteLine.move(to: CGPoint(x: 0, y: 100))
         kiteLine.addLine(to: kiteAttacher.position)
         
-        let line = SKShapeNode()
-        line.path = kiteLine.cgPath
-        line.zPosition = -3
-        line.strokeColor = UIColor.white
-        line.lineWidth = 2
-        addChild(line)
+        kiteNodeLine.path = kiteLine.cgPath
+        kiteNodeLine.zPosition = -3
+        kiteNodeLine.strokeColor = UIColor.white
+        kiteNodeLine.lineWidth = 2
+        addChild(kiteNodeLine)
         
         Timer.scheduledTimer(withTimeInterval: 0.04, repeats: true, block: {thread in
             self.kiteLine.removeAllPoints()
             self.kiteLine.move(to: CGPoint(x: 0, y: 100))
             self.kiteLine.addLine(to: self.kiteAttacher.position)
             
-            line.path = self.kiteLine.cgPath
+            self.kiteNodeLine.path = self.kiteLine.cgPath
             
             if(self.gameStarted == false){
                 thread.invalidate()
@@ -234,6 +244,55 @@ class GameScene: SKScene {
      
     }
     
+    func createRivalKites(){
+        //atrelando com o gameScene
+        rivalKite = childNode(withName: "rivalKite") as! SKSpriteNode
+        
+        
+        
+        
+        let move = AnimationPath.get()
+        rivalKite.run(move)
+        let moveLeft = SKAction.follow(path.cgPath, asOffset: true, orientToPath: false, speed: 50)
+        rivalKite.run(SKAction.repeatForever(moveLeft))
+    }
+    func createRivalLines(){
+        kiteRivalLine.move(to: CGPoint(x: self.frame.maxX, y: 100))
+        kiteRivalLine.addLine(to: rivalKite.position)
+        
+        rivalKiteNodeLine.path = kiteRivalLine.cgPath
+        rivalKiteNodeLine.zPosition = -3
+        rivalKiteNodeLine.strokeColor = UIColor.white
+        rivalKiteNodeLine.lineWidth = 2
+        addChild(rivalKiteNodeLine)
+        
+        Timer.scheduledTimer(withTimeInterval: 0.04, repeats: true, block: {thread in
+            self.kiteLine.removeAllPoints()
+            self.kiteLine.move(to: CGPoint(x: self.rivalKite.position.x + 200, y: 100))
+            self.kiteLine.addLine(to: self.rivalKite.position)
+            
+            self.rivalKiteNodeLine.path = self.kiteLine.cgPath
+            
+            if(self.gameStarted == false){
+                thread.invalidate()
+            }
+        })
+        
+    }
+
+    func observeLineContact(){
+        Timer.scheduledTimer(withTimeInterval: 0.04, repeats: true, block: {thread in
+            if(self.kiteNodeLine.intersects(self.rivalKiteNodeLine)){
+                print("OS FIOS TAO SE TOCAAAANDO")
+            }
+            
+            
+            if(self.gameStarted == false){
+                thread.invalidate()
+            }
+        })
+    }
+    
     func createPipasRivais(){
         pipas = SKNode()
         
@@ -270,7 +329,7 @@ class GameScene: SKScene {
             
             //pega a força do sopro (3 = forte, 2 = médio, 1 = fraco, 0 = nada)
             let blowStrenght = self.blow!.getAmplitude()
-            print(self.blow!.getAmplitude())
+            //print(self.blow!.getAmplitude())
             
             //dá o impulso de acordo com a força do sopro
             if(blowStrenght >= 3){
@@ -299,7 +358,6 @@ class GameScene: SKScene {
         })
     }
 
-    
 }
 extension GameScene : SKPhysicsContactDelegate{
     func didBegin(_ contact: SKPhysicsContact){
@@ -363,16 +421,11 @@ extension GameScene : SKPhysicsContactDelegate{
                 
                 //blow?.stop()
                 gameStarted = false
-                
-                
-                
+    
                 self.viewController?.performSegue(withIdentifier: "gameOver", sender: self)
                 print("GAME OVER VIADO")
             }
         }
-        
-        
-        
         //print("o contato foi entre \(contact.bodyA.node?.name) e \(contact.bodyB.node?.name) bodyB: \(bodyB)")
         
     }
