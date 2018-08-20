@@ -10,6 +10,18 @@ import UIKit
 import SpriteKit
 import GameplayKit
 
+
+//Essa é a capivara do SIGABRT
+//
+//    　　 /)─―ヘ
+//　　　＿／　　　　＼
+//　 ／　  　●　　　●丶...
+//　｜　　　　　　　▼　|
+//　｜　　　　　　　亠ノ
+//　 U￣U￣￣￣￣U
+//
+//Repasse no código para não sofrer com SIGABRT
+
 class GameViewController: UIViewController {
 
     override func viewDidLoad() {

@@ -85,7 +85,4 @@ class AnimationPath{
         let move = SKAction.repeatForever(SKAction.sequence(actions))
         return move
     }
-    private func actionCreater(){
-        
-    }
 }

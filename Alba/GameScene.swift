@@ -9,7 +9,7 @@
 import SpriteKit
 import GameplayKit
 
-struct PhysicsCatagory {
+struct PhysicsCategory {
     static let kiteAttacher: UInt32 = 0x1 << 1
     static let community : [UInt32] = [0x1 << 2, 0x1 << 3, 0x1 << 4]
     static var communityAlreadyHit: [Bool] = [false, false, false]
@@ -104,9 +104,9 @@ class GameScene: SKScene {
         
         //Fisica e Colisão
         for i in 0...2{
-            community[i].physicsBody?.categoryBitMask = PhysicsCatagory.community[i]
-            community[i].physicsBody?.collisionBitMask = PhysicsCatagory.kiteAttacher
-            community[i].physicsBody?.contactTestBitMask = PhysicsCatagory.kiteAttacher
+            community[i].physicsBody?.categoryBitMask = PhysicsCategory.community[i]
+            community[i].physicsBody?.collisionBitMask = PhysicsCategory.kiteAttacher
+            community[i].physicsBody?.contactTestBitMask = PhysicsCategory.kiteAttacher
             community[i].physicsBody?.affectedByGravity = false
             community[i].physicsBody?.isDynamic = false
             community[i].physicsBody?.pinned = false
@@ -125,7 +125,7 @@ class GameScene: SKScene {
             
             //ligando a movimentação para a esquerda com os céus
             let move = SKAction.follow(path.cgPath, asOffset: true, orientToPath: false, speed: 50)
-            sky[i].run(SKAction.repeatForever(move)) 
+            sky[i].run(SKAction.repeatForever(move))
         }
         
         
@@ -136,8 +136,8 @@ class GameScene: SKScene {
         
         comunnityTrigger.physicsBody = SKPhysicsBody(rectangleOf: comunnityTrigger.size)
         
-        comunnityTrigger.physicsBody?.categoryBitMask = PhysicsCatagory.communityTrigger
-        comunnityTrigger.physicsBody?.contactTestBitMask = PhysicsCatagory.community[0] | PhysicsCatagory.community[1] | PhysicsCatagory.community[2]
+        comunnityTrigger.physicsBody?.categoryBitMask = PhysicsCategory.communityTrigger
+        comunnityTrigger.physicsBody?.contactTestBitMask = PhysicsCategory.community[0] | PhysicsCategory.community[1] | PhysicsCategory.community[2]
         comunnityTrigger.physicsBody?.collisionBitMask = 0
         comunnityTrigger.physicsBody?.affectedByGravity = false
         
@@ -167,8 +167,8 @@ class GameScene: SKScene {
         
         //
         kiteAttacher.physicsBody?.collisionBitMask = 0
-        kiteAttacher.physicsBody?.categoryBitMask = PhysicsCatagory.kiteAttacher
-        kiteAttacher.physicsBody?.contactTestBitMask = PhysicsCatagory.community[0] | PhysicsCatagory.community[1] | PhysicsCatagory.community[2]
+        kiteAttacher.physicsBody?.categoryBitMask = PhysicsCategory.kiteAttacher
+        kiteAttacher.physicsBody?.contactTestBitMask = PhysicsCategory.community[0] | PhysicsCategory.community[1] | PhysicsCategory.community[2]
         
         let move = AnimationPath.get()
         kiteAttacher.run(move)
@@ -289,10 +289,7 @@ class GameScene: SKScene {
         
         kite.physicsBody = SKPhysicsBody(texture: kite.texture!, size: kiteSize)
     }
-    
-    override func update(_ currentTime: TimeInterval) {
-    
-    }
+
     
 }
 extension GameScene : SKPhysicsContactDelegate{
@@ -301,9 +298,9 @@ extension GameScene : SKPhysicsContactDelegate{
         let bodyB = contact.bodyB.categoryBitMask
         
         //verificando se as comunidades bateram no trigger, assim joga elas e o céu para o final da esteira
-        if(bodyB == PhysicsCatagory.community[0] && PhysicsCatagory.communityAlreadyHit[0] == false){
-            PhysicsCatagory.communityAlreadyHit[2] = false
-            PhysicsCatagory.communityAlreadyHit[0] = true
+        if(bodyB == PhysicsCategory.community[0] && PhysicsCategory.communityAlreadyHit[0] == false){
+            PhysicsCategory.communityAlreadyHit[2] = false
+            PhysicsCategory.communityAlreadyHit[0] = true
             
             //print("hora do community 2 ir para a posicao final")
             
@@ -315,9 +312,9 @@ extension GameScene : SKPhysicsContactDelegate{
             //jogando o céu para o final da esteira
             sky[2].position = CGPoint(x: 1930.375, y: 219.75)
         }
-        else if(bodyB == PhysicsCatagory.community[1] && PhysicsCatagory.communityAlreadyHit[1] == false){
-            PhysicsCatagory.communityAlreadyHit[0] = false
-            PhysicsCatagory.communityAlreadyHit[1] = true
+        else if(bodyB == PhysicsCategory.community[1] && PhysicsCategory.communityAlreadyHit[1] == false){
+            PhysicsCategory.communityAlreadyHit[0] = false
+            PhysicsCategory.communityAlreadyHit[1] = true
             
             //print("hora do community 0 ir para a posicao final")
             
@@ -329,9 +326,9 @@ extension GameScene : SKPhysicsContactDelegate{
             //jogando o céu para o final da esteira
             sky[0].position = CGPoint(x: 1985.75, y: 219.75)
         }
-        else if(bodyB == PhysicsCatagory.community[2] && PhysicsCatagory.communityAlreadyHit[2] == false){
-            PhysicsCatagory.communityAlreadyHit[1] = false
-            PhysicsCatagory.communityAlreadyHit[2] = true
+        else if(bodyB == PhysicsCategory.community[2] && PhysicsCategory.communityAlreadyHit[2] == false){
+            PhysicsCategory.communityAlreadyHit[1] = false
+            PhysicsCategory.communityAlreadyHit[2] = true
             
             //print("hora do community 1 ir para a posicao final")
             
@@ -346,7 +343,7 @@ extension GameScene : SKPhysicsContactDelegate{
         
         //testando se o kiteAttacher bateu numa das comunidades, no caso causando game over
         for i in 0...2{
-            if((bodyA == PhysicsCatagory.community[i]) && bodyB == PhysicsCatagory.kiteAttacher){
+            if((bodyA == PhysicsCategory.community[i]) && bodyB == PhysicsCategory.kiteAttacher){
                 //self.view?.window?.rootViewController?.performSegue(withIdentifier: "gameOver", sender: self)
                 //print("GAME OVER VIADO")
             }
