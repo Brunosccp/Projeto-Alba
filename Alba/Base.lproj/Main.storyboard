@@ -29,7 +29,7 @@
                                     <constraint firstAttribute="width" constant="267" id="Aj6-Z4-D5A"/>
                                 </constraints>
                                 <connections>
-                                    <segue destination="BV1-FR-VrT" kind="show" id="t1h-0t-XDF"/>
+                                    <segue destination="BV1-FR-VrT" kind="show" animates="NO" id="t1h-0t-XDF"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -63,7 +63,7 @@
                                     <constraint firstAttribute="width" constant="267" id="UEt-4u-6Ga"/>
                                 </constraints>
                                 <connections>
-                                    <segue destination="ItK-2P-8Gq" kind="show" id="sst-U7-Wlp"/>
+                                    <segue destination="ItK-2P-8Gq" kind="show" animates="NO" id="sst-U7-Wlp"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -94,7 +94,7 @@
                         <viewLayoutGuide key="safeArea" id="4qk-I5-YsI"/>
                     </view>
                     <connections>
-                        <segue destination="WHn-Bo-ALh" kind="show" identifier="gameOver" id="63u-ru-zhs"/>
+                        <segue destination="WHn-Bo-ALh" kind="show" identifier="gameOver" animates="NO" id="63u-ru-zhs"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SZV-WD-TEh" sceneMemberID="firstResponder"/>
@@ -143,6 +143,6 @@
         <image name="tela_Jogar.png" width="667" height="375"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Jy3-EH-IRP"/>
+        <segue reference="t1h-0t-XDF"/>
     </inferredMetricsTieBreakers>
 </document>

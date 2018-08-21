@@ -58,8 +58,24 @@ class GameScene: SKScene {
     
     //microfone
     var blow: BlowIdentifier? = nil
+    
+    //label de score
+    var scoreLabel = SKLabelNode()
+    var counter = 0
+    var counterTimer = Timer()
+    var counterStartValue = 0
 
     override func didMove(to view: SKView) {
+        
+        //Score
+        scoreLabel = childNode(withName: "scoreLabel") as! SKLabelNode
+        
+        scoreLabel.text = "Score: \(counter)"
+        //scoreLabel.fontName = ""
+        //scoreLabel.fontSize =
+        
+        counter = counterStartValue
+        startCounter()
         
         //criando caminho das casas
         path.move(to: CGPoint(x: 0, y: 0))
@@ -357,6 +373,16 @@ class GameScene: SKScene {
         }
     }
 
+    //Score
+    func startCounter(){
+        counterTimer = Timer.scheduledTimer(timeInterval: 3.0, target: self, selector: #selector(incrementCounter), userInfo: nil, repeats: true)
+    }
+    
+    @objc func incrementCounter(){
+        counter += 10
+        scoreLabel.text = "Score: \(counter)"
+    }
+    
 }
 extension GameScene : SKPhysicsContactDelegate{
     func didBegin(_ contact: SKPhysicsContact){
