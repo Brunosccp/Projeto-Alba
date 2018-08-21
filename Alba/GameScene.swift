@@ -45,12 +45,10 @@ class GameScene: SKScene {
     var kiteNodeLine = SKShapeNode()
     
     //Pipas rivais
-    var rivalKite = SKSpriteNode()
-    var kiteRivalLine = UIBezierPath()
-    let rivalKiteNodeLine = SKShapeNode()
+    var rivalKite: [RivalKite] = []
     
     //Boolean se os fios da sua pipa e do inimigo estão se tocando
-    var isTouching = false
+    var isTouching = [false, false, false]
     
     //Frames da animação da pipa
     private var kiteFlyingFrames: [SKTexture] = []
@@ -249,36 +247,47 @@ class GameScene: SKScene {
     }
     
     func createRivalKites(){
+        
+        for _ in 1...3{
+            rivalKite.append(RivalKite())
+        }
+        
         //atrelando com o gameScene
-        rivalKite = childNode(withName: "rivalKite") as! SKSpriteNode
-        
-        
-        
-        
-        let move = AnimationPath.get()
-        rivalKite.run(move)
-        let moveLeft = SKAction.follow(path.cgPath, asOffset: true, orientToPath: false, speed: 50)
-        rivalKite.run(SKAction.repeatForever(moveLeft))
+        for i in 0...2{
+            rivalKite[i].kite = childNode(withName: "rivalKite\(i+1)") as! SKSpriteNode
+            
+            
+            
+            
+            let move = AnimationPath.get()
+            rivalKite[i].kite.run(move)
+            let moveLeft = SKAction.follow(path.cgPath, asOffset: true, orientToPath: false, speed: 50)
+            rivalKite[i].kite.run(SKAction.repeatForever(moveLeft))
+        }
     }
     func createRivalLines(){
-        kiteRivalLine.move(to: CGPoint(x: self.frame.maxX, y: 100))
-        kiteRivalLine.addLine(to: rivalKite.position)
-        
-        rivalKiteNodeLine.path = kiteRivalLine.cgPath
-        rivalKiteNodeLine.zPosition = -3
-        rivalKiteNodeLine.strokeColor = UIColor.white
-        rivalKiteNodeLine.lineWidth = 2
-        addChild(rivalKiteNodeLine)
+        for i in 0...2{
+            rivalKite[i].line.move(to: CGPoint(x: self.frame.maxX, y: 100))
+            rivalKite[i].line.addLine(to: rivalKite[0].kite.position)
+            
+            rivalKite[i].nodeLine.path = rivalKite[0].line.cgPath
+            rivalKite[i].nodeLine.zPosition = -3
+            rivalKite[i].nodeLine.strokeColor = UIColor.white
+            rivalKite[i].nodeLine.lineWidth = 2
+            addChild(rivalKite[i].nodeLine)
+        }
         
         Timer.scheduledTimer(withTimeInterval: 0.04, repeats: true, block: {thread in
-            self.kiteLine.removeAllPoints()
-            self.kiteLine.move(to: CGPoint(x: self.rivalKite.position.x + 200, y: 100))
-            self.kiteLine.addLine(to: self.rivalKite.position)
-            
-            self.rivalKiteNodeLine.path = self.kiteLine.cgPath
-            
-            if(self.gameStarted == false){
-                thread.invalidate()
+            for i in 0...2{
+                self.kiteLine.removeAllPoints()
+                self.kiteLine.move(to: CGPoint(x: self.rivalKite[i].kite.position.x + 200, y: 100))
+                self.kiteLine.addLine(to: self.rivalKite[i].kite.position)
+                
+                self.rivalKite[i].nodeLine.path = self.kiteLine.cgPath
+                
+                if(self.gameStarted == false){
+                    thread.invalidate()
+                }
             }
         })
         
@@ -286,13 +295,14 @@ class GameScene: SKScene {
 
     func observeLineContact(){
         Timer.scheduledTimer(withTimeInterval: 0.04, repeats: true, block: {thread in
-            if(self.kiteNodeLine.intersects(self.rivalKiteNodeLine)){
-                self.isTouching = true
-            
-            }else{
-                self.isTouching = false
+            for i in 0...2{
+                if(self.kiteNodeLine.intersects(self.rivalKite[i].kite)){
+                    self.isTouching[i] = true
+                
+                }else{
+                    self.isTouching[i] = false
+                }
             }
-            
             if(self.gameStarted == false){
                 thread.invalidate()
             }
@@ -365,13 +375,11 @@ class GameScene: SKScene {
     }
     func shake(){
         print("SHAKEEEE")
-        if(isTouching == true){
-            
-            
-            rivalKiteNodeLine.removeFromParent()
-            isTouching = false
-        }else{
-            return
+        for i in 0...2{
+            if(isTouching[i] == true){
+                rivalKite[i].nodeLine.removeFromParent()
+                isTouching[i] = false
+            }
         }
     }
 
@@ -382,11 +390,11 @@ extension GameScene : SKPhysicsContactDelegate{
         let bodyB = contact.bodyB.categoryBitMask
         
         //verificando se as comunidades bateram no trigger, assim joga elas e o céu para o final da esteira
-        if(bodyB == PhysicsCategory.community[0] && PhysicsCategory.communityAlreadyHit[0] == false){
+        if(bodyB == PhysicsCategory.community[0] && bodyA == PhysicsCategory.communityTrigger && PhysicsCategory.communityAlreadyHit[0] == false) || (bodyA == PhysicsCategory.community[0] && bodyB == PhysicsCategory.communityTrigger && PhysicsCategory.communityAlreadyHit[0] == false){
             PhysicsCategory.communityAlreadyHit[2] = false
             PhysicsCategory.communityAlreadyHit[0] = true
             
-            //print("hora do community 2 ir para a posicao final")
+            print("hora do community 2 ir para a posicao final")
             
             //jogando community para o final da esteira
             community[2].physicsBody = nil //desativando a fisica, pois se não a comunidade não muda de posição
@@ -396,11 +404,11 @@ extension GameScene : SKPhysicsContactDelegate{
             //jogando o céu para o final da esteira
             sky[2].position = CGPoint(x: 1930.375, y: 219.75)
         }
-        else if(bodyB == PhysicsCategory.community[1] && PhysicsCategory.communityAlreadyHit[1] == false){
+        else if(bodyB == PhysicsCategory.community[1] && bodyA == PhysicsCategory.communityTrigger && PhysicsCategory.communityAlreadyHit[1] == false) || (bodyA == PhysicsCategory.community[1] && bodyB == PhysicsCategory.communityTrigger && PhysicsCategory.communityAlreadyHit[1] == false){
             PhysicsCategory.communityAlreadyHit[0] = false
             PhysicsCategory.communityAlreadyHit[1] = true
             
-            //print("hora do community 0 ir para a posicao final")
+            print("hora do community 0 ir para a posicao final")
             
             //jogando community para o final da esteira
             community[0].physicsBody = nil //desativando a fisica, pois se não a comunidade não muda de posição
@@ -410,11 +418,11 @@ extension GameScene : SKPhysicsContactDelegate{
             //jogando o céu para o final da esteira
             sky[0].position = CGPoint(x: 1985.75, y: 219.75)
         }
-        else if(bodyB == PhysicsCategory.community[2] && PhysicsCategory.communityAlreadyHit[2] == false){
+        else if(bodyB == PhysicsCategory.community[2] && bodyA == PhysicsCategory.communityTrigger && PhysicsCategory.communityAlreadyHit[2] == false) || (bodyA == PhysicsCategory.community[2] && bodyB == PhysicsCategory.communityTrigger && PhysicsCategory.communityAlreadyHit[2] == false){
             PhysicsCategory.communityAlreadyHit[1] = false
             PhysicsCategory.communityAlreadyHit[2] = true
             
-            //print("hora do community 1 ir para a posicao final")
+            print("hora do community 1 ir para a posicao final")
             
             //jogando community para o final da esteira
             community[1].physicsBody = nil //desativando a fisica, pois se não a comunidade não muda de posição

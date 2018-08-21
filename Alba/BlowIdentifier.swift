@@ -15,7 +15,7 @@ class BlowIdentifier{
     var tracker: AKFrequencyTracker!
     var silence: AKBooster!
     
-    init() {
+    init(){
         AKSettings.audioInputEnabled = true
         mic = AKMicrophone()
         
@@ -50,13 +50,6 @@ class BlowIdentifier{
         mic.stop()
         AudioKit.disconnectAllInputs()
         //self.audioInputPlot.
-    }
-    
-    @objc func updateUI(){
-        if(tracker.amplitude > 0.1){
-        
-            print("AMPLITUDE DO BAGUIU:", tracker.amplitude)
-        }
     }
     
     
