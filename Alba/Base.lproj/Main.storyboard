@@ -114,7 +114,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Fim_de_jogo.png" translatesAutoresizingMaskIntoConstraints="NO" id="yet-Zl-cfG">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Tela_fim_de_jogo-1" translatesAutoresizingMaskIntoConstraints="NO" id="yet-Zl-cfG">
                                 <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
@@ -128,18 +128,21 @@
                                     <segue destination="BV1-FR-VrT" kind="show" id="Jy3-EH-IRP"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IlB-Yj-Xz3">
-                                <rect key="frame" x="301" y="144" width="64" height="29"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IlB-Yj-Xz3">
+                                <rect key="frame" x="287" y="110" width="92" height="40"/>
                                 <accessibility key="accessibilityConfiguration" identifier="scoreFinal"/>
-                                <fontDescription key="fontDescription" name="Jua-Regular" family="Jua" pointSize="28"/>
+                                <fontDescription key="fontDescription" name="Jua-Regular" family="Jua" pointSize="40"/>
                                 <color key="textColor" red="0.93725490196078431" green="0.41960784313725491" blue="0.066666666666666666" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="IlB-Yj-Xz3" firstAttribute="centerX" secondItem="D1U-Eg-eoK" secondAttribute="centerX" id="3i9-Tx-HVI"/>
                             <constraint firstItem="VL2-bT-ymB" firstAttribute="centerX" secondItem="D1U-Eg-eoK" secondAttribute="centerX" id="ErH-bS-LaX"/>
+                            <constraint firstItem="IlB-Yj-Xz3" firstAttribute="leading" secondItem="NjR-41-xKF" secondAttribute="leading" constant="287" id="Sc6-Ol-Gy3"/>
+                            <constraint firstItem="NjR-41-xKF" firstAttribute="trailing" secondItem="IlB-Yj-Xz3" secondAttribute="trailing" constant="288" id="SeA-2h-0mZ"/>
+                            <constraint firstItem="IlB-Yj-Xz3" firstAttribute="top" secondItem="NjR-41-xKF" secondAttribute="top" constant="110" id="eeV-OO-t0S"/>
                             <constraint firstItem="NjR-41-xKF" firstAttribute="bottom" secondItem="VL2-bT-ymB" secondAttribute="bottom" constant="38" id="fpX-OW-a7k"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="NjR-41-xKF"/>
@@ -154,7 +157,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Fim_de_jogo.png" width="667" height="375"/>
+        <image name="Tela_fim_de_jogo-1" width="667" height="375"/>
         <image name="Tela_tutorial.png" width="667" height="375"/>
         <image name="tela_Jogar.png" width="667" height="375"/>
     </resources>
