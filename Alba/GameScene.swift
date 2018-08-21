@@ -230,26 +230,26 @@ class GameScene: SKScene {
         })
     }
     
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if gameStarted == false{
-            gameStarted = true
-            
-            
-        
-            kite.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
-            kite.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 1))
-            
-            kiteAttacher.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
-            kiteAttacher.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 1))
-        }else{
-            kite.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
-            kite.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 1))
-            
-            kiteAttacher.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
-            kiteAttacher.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 1))
-        }
-     
-    }
+//    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+//        if gameStarted == false{
+//            gameStarted = true
+//
+//
+//
+//            kite.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
+//            kite.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 1))
+//
+//            kiteAttacher.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
+//            kiteAttacher.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 1))
+//        }else{
+//            kite.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
+//            kite.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 1))
+//            
+//            kiteAttacher.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
+//            kiteAttacher.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 1))
+//        }
+//
+//    }
     
     func createRivalKites(){
         for _ in 1...3{
