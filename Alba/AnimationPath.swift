@@ -85,4 +85,38 @@ class AnimationPath{
         let move = SKAction.repeatForever(SKAction.sequence(actions))
         return move
     }
+    static func kiteDeath() -> (SKAction, SKAction){
+        var down: SKAction
+        var left: SKAction
+        var right: SKAction
+        var leftAndRight: SKAction
+        
+        //
+        let path = UIBezierPath()
+        path.move(to: CGPoint(x: 0, y: 0))
+        path.addLine(to: CGPoint(x: 0, y: -500))
+        
+        down = SKAction.follow(path.cgPath, asOffset: true, orientToPath: false, speed: 50)
+        
+        //
+        path.removeAllPoints()
+        path.move(to: CGPoint(x: 0, y: 0))
+        path.addLine(to: CGPoint(x: -25, y: 0))
+        
+        left = SKAction.follow(path.cgPath, asOffset: true, orientToPath: false, speed: 50)
+        
+        //
+        path.removeAllPoints()
+        path.move(to: CGPoint(x: 0, y: 0))
+        path.addLine(to: CGPoint(x: 25, y: 0))
+        
+        right = SKAction.follow(path.cgPath, asOffset: true, orientToPath: false, speed: 50)
+        
+        let sequence = [left, right]
+        
+        leftAndRight = SKAction.repeatForever(SKAction.sequence(sequence))
+        
+        return (down, leftAndRight)
+    }
+    
 }

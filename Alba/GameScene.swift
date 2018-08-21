@@ -192,14 +192,14 @@ class GameScene: SKScene {
         kiteLine.addLine(to: kiteAttacher.position)
         
         kiteNodeLine.path = kiteLine.cgPath
-        kiteNodeLine.zPosition = -3
+        kiteNodeLine.zPosition = 10
         kiteNodeLine.strokeColor = UIColor.white
         kiteNodeLine.lineWidth = 2
         addChild(kiteNodeLine)
         
         Timer.scheduledTimer(withTimeInterval: 0.04, repeats: true, block: {thread in
             self.kiteLine.removeAllPoints()
-            self.kiteLine.move(to: CGPoint(x: 0, y: 100))
+            self.kiteLine.move(to: CGPoint(x: 100, y: 0))
             self.kiteLine.addLine(to: self.kiteAttacher.position)
             
             self.kiteNodeLine.path = self.kiteLine.cgPath
@@ -214,16 +214,6 @@ class GameScene: SKScene {
         if gameStarted == false{
             gameStarted = true
             
-            let spawn  = SKAction.run({
-                () in
-                
-                self.createPipasRivais()
-            })
-            
-            let delay = SKAction.wait(forDuration: 8.0)
-            let spawnDelay = SKAction.sequence([spawn, delay])
-            let spawnDelayForever = SKAction.repeatForever(spawnDelay)
-            self.run(spawnDelayForever)
             
         
             kite.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
@@ -301,27 +291,6 @@ class GameScene: SKScene {
         })
     }
     
-    func createPipasRivais(){
-        pipas = SKNode()
-        
-        let pipaRival = SKSpriteNode(imageNamed: "pipaRival")
-        
-        pipaRival.position = CGPoint(x: self.frame.width, y: self.frame.height / 2 + 300)
-        pipaRival.size = CGSize(width: 60, height: 70)
-        
-        
-        let distance = CGFloat(self.frame.width + pipas.frame.width)
-        let movePipes = SKAction.moveBy(x: -distance, y: 0, duration: TimeInterval(0.01 * distance))
-        let removePipes = SKAction.removeFromParent()
-            moveAndRemove = SKAction.sequence([movePipes, removePipes])
-        
-        pipaRival.run(moveAndRemove)
-        
-        pipas.addChild(pipaRival)
-        
-        self.addChild(pipas)
-    }
-    
     func animateKite(){
         let actionRepeatForever = SKAction.repeatForever(SKAction.animate(with: kiteFlyingFrames, timePerFrame: 0.04, resize: false, restore: false))
         
@@ -370,10 +339,16 @@ class GameScene: SKScene {
         for i in 0...2{
             //cortou a pipa
             if(isTouching[i] == true){
+                
                 rivalKite[i].nodeLine.removeFromParent()
                 isTouching[i] = false
                 counter += 50
+                rivalKite[i].kite.removeAllActions()
+                let actions = AnimationPath.kiteDeath()
                 
+                rivalKite[i].kite.run(actions.0)
+                rivalKite[i].kite.run(actions.1)
+                rivalKite[i].kite.zRotation = 90
             }
         }
     }
@@ -418,19 +393,38 @@ extension GameScene : SKPhysicsContactDelegate{
             //jogando o céu para o final da esteira
             sky[2].position = CGPoint(x: 1930.375, y: 219.75)
             
+            
+            print("RECUPERANDO")
+            
             //jogando as pipas rivais para a posição inicial, e se necessário, recuperá-las
             rivalKite[0].kite.position = CGPoint(x: 900, y: 331)
             if(rivalKite[0].nodeLine.parent == nil){    //se a pipa foi cortada
+                rivalKite[0].kite.removeAllActions()
+                rivalKite[0].kite.zRotation = 0
+                rivalKite[0].kite.run(AnimationPath.get())
+                let moveLeft = SKAction.follow(path.cgPath, asOffset: true, orientToPath: false, speed: 50)
+                rivalKite[0].kite.run(SKAction.repeatForever(moveLeft))
                 addChild(rivalKite[0].nodeLine)
             }
             
             rivalKite[1].kite.position = CGPoint(x: 1477.201, y: 331)
             if(rivalKite[1].nodeLine.parent == nil){    //se a pipa foi cortada
+                rivalKite[1].kite.removeAllActions()
+                rivalKite[1].kite.zRotation = 0
+                rivalKite[1].kite.run(AnimationPath.get())
+                let moveLeft = SKAction.follow(path.cgPath, asOffset: true, orientToPath: false, speed: 50)
+                rivalKite[1].kite.run(SKAction.repeatForever(moveLeft))
                 addChild(rivalKite[1].nodeLine)
             }
             
             rivalKite[2].kite.position = CGPoint(x: 2140.8, y: 331)
             if(rivalKite[2].nodeLine.parent == nil){    //se a pipa foi cortada
+                print("RECUPERANDo3")
+                rivalKite[2].kite.removeAllActions()
+                rivalKite[2].kite.zRotation = 0
+                rivalKite[2].kite.run(AnimationPath.get())
+                let moveLeft = SKAction.follow(path.cgPath, asOffset: true, orientToPath: false, speed: 50)
+                rivalKite[2].kite.run(SKAction.repeatForever(moveLeft))
                 addChild(rivalKite[2].nodeLine)
             }
             
