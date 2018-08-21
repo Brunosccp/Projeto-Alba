@@ -61,7 +61,6 @@ class GameScene: SKScene {
 
     override func didMove(to view: SKView) {
         
-        
         //criando caminho das casas
         path.move(to: CGPoint(x: 0, y: 0))
         path.addLine(to: CGPoint(x: -1000, y: 0))
@@ -87,11 +86,11 @@ class GameScene: SKScene {
         startObserveBlow()
         observeLineContact()
         
-        
         self.physicsWorld.contactDelegate = self
     }
     
     //função que cria as casas com o physics body em relação ao alfa da textura
+    
     func createHouses(){
         //criando a física pelo alfa da textura
         for i in 0...2{
@@ -225,7 +224,6 @@ class GameScene: SKScene {
     }
     
     func createRivalKites(){
-        
         for _ in 1...3{
             rivalKite.append(RivalKite())
         }
@@ -314,7 +312,7 @@ class GameScene: SKScene {
     }
     func startObserveBlow(){
         Timer.scheduledTimer(withTimeInterval: 0.06, repeats: true, block:{thread in
-            //"teto! de sopro pra pipa nao subir muito
+            //"teto" de sopro pra pipa nao subir muito
             if(self.kiteAttacher.position.y > 300){
                 return
             }
@@ -379,6 +377,24 @@ extension GameScene : SKPhysicsContactDelegate{
             
             //jogando o céu para o final da esteira
             sky[2].position = CGPoint(x: 1930.375, y: 219.75)
+            
+            //jogando as pipas rivais para a posição inicial, e se necessário, recuperá-las
+            rivalKite[0].kite.position = CGPoint(x: 900, y: 331)
+            if(rivalKite[0].nodeLine.parent == nil){    //se a pipa foi cortada
+                addChild(rivalKite[0].nodeLine)
+            }
+            
+            rivalKite[1].kite.position = CGPoint(x: 1477.201, y: 331)
+            if(rivalKite[1].nodeLine.parent == nil){    //se a pipa foi cortada
+                addChild(rivalKite[1].nodeLine)
+            }
+            
+            rivalKite[2].kite.position = CGPoint(x: 2140.8, y: 331)
+            if(rivalKite[2].nodeLine.parent == nil){    //se a pipa foi cortada
+                addChild(rivalKite[2].nodeLine)
+            }
+            
+            
         }
         else if(bodyB == PhysicsCategory.community[1] && bodyA == PhysicsCategory.communityTrigger && PhysicsCategory.communityAlreadyHit[1] == false) || (bodyA == PhysicsCategory.community[1] && bodyB == PhysicsCategory.communityTrigger && PhysicsCategory.communityAlreadyHit[1] == false){
             PhysicsCategory.communityAlreadyHit[0] = false
