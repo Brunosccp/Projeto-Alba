@@ -74,7 +74,7 @@ class GameScene: SKScene {
         scoreLabel = childNode(withName: "scoreLabel") as! SKLabelNode
         
         scoreLabel.text = "Score: \(PhysicsCategory.score)"
-        //scoreLabel.fontName = ""
+        scoreLabel.fontName = "Jua"
         //scoreLabel.fontSize =
         
         PhysicsCategory.score = counterStartValue
