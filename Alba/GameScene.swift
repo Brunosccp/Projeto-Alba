@@ -64,11 +64,15 @@ class GameScene: SKScene {
     var counter = 0
     var counterTimer = Timer()
     var counterStartValue = 0
+    
+    //label de pontuação quando corta
+    var rivalCutLabel = SKLabelNode()
 
     override func didMove(to view: SKView) {
         
         //Score
         scoreLabel = childNode(withName: "scoreLabel") as! SKLabelNode
+        rivalCutLabel.text = "+50"
         
         scoreLabel.text = "Score: \(counter)"
         //scoreLabel.fontName = ""
@@ -349,10 +353,24 @@ class GameScene: SKScene {
                 rivalKite[i].kite.run(actions.0)
                 rivalKite[i].kite.run(actions.1)
                 rivalKite[i].kite.zRotation = 90
+                
+                //
+                rivalCutLabelAnimation(i: i, position: rivalKite[i].kite.position)
+                
+                
             }
         }
     }
+    func rivalCutLabelAnimation(i: Int ,position: CGPoint){
+        rivalCutLabel.position = position
+        addChild(rivalCutLabel)
+        
+        Timer.scheduledTimer(withTimeInterval: 3, repeats: false, block: {thread in
+            print("3 seg depois")
+            self.rivalCutLabel.removeFromParent()
+            })
 
+    }
     //Score
     func startCounter(){
         counterTimer = Timer.scheduledTimer(timeInterval: 3.0, target: self, selector: #selector(incrementCounter), userInfo: nil, repeats: true)
