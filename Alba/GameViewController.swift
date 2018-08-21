@@ -83,10 +83,6 @@ class GameViewController: UIViewController {
     override var shouldAutorotate: Bool {
         return true
     }
-
-    func teste(){
-        
-    }
     
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         if UIDevice.current.userInterfaceIdiom == .phone {

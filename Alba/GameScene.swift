@@ -102,6 +102,8 @@ class GameScene: SKScene {
         startObserveBlow()
         observeLineContact()
         
+        updateLabels()
+        
         self.physicsWorld.contactDelegate = self
     }
     
@@ -366,9 +368,12 @@ class GameScene: SKScene {
     func shake(){
         print("SHAKEEEE")
         for i in 0...2{
+            //cortou a pipa
             if(isTouching[i] == true){
                 rivalKite[i].nodeLine.removeFromParent()
                 isTouching[i] = false
+                counter += 50
+                
             }
         }
     }
@@ -380,7 +385,16 @@ class GameScene: SKScene {
     
     @objc func incrementCounter(){
         counter += 10
-        scoreLabel.text = "Score: \(counter)"
+    }
+    
+    func updateLabels(){
+        Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true, block: {thread in
+            self.scoreLabel.text = "Score: \(self.counter)"
+            
+            if(self.gameStarted == false){
+                thread.invalidate()
+            }
+        })
     }
     
 }
