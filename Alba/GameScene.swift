@@ -72,14 +72,12 @@ class GameScene: SKScene {
 
     
     override func didMove(to view: SKView) {
-        
         //Score
         scoreLabel = childNode(withName: "scoreLabel") as! SKLabelNode
         rivalCutLabel.text = "+50"
         rivalCutLabel.fontName = "Jua"
         rivalCutLabel.color = .orange
         rivalCutLabel.fontColor = .orange
-        
         
         
         scoreLabel.text = "Score: \(PhysicsCategory.score)"
@@ -407,7 +405,6 @@ class GameScene: SKScene {
             }
         })
     }
-    
 
 }
 extension GameScene : SKPhysicsContactDelegate{
