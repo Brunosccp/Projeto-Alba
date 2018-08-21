@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1533F58221290FB7000190F9 /* Pipa.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 1533F58121290FB7000190F9 /* Pipa.atlas */; };
+		1566CA14212CAC4900C8A76F /* Jua in Resources */ = {isa = PBXBuildFile; fileRef = 1566CA13212CAC4900C8A76F /* Jua */; };
 		15F250E02125EFDE00E584CD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F250DF2125EFDE00E584CD /* AppDelegate.swift */; };
 		15F250E22125EFDE00E584CD /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 15F250E12125EFDE00E584CD /* GameScene.sks */; };
 		15F250E42125EFDE00E584CD /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = 15F250E32125EFDE00E584CD /* Actions.sks */; };
@@ -30,11 +31,11 @@
 		956BAF87212B3CF900744BE7 /* Tela_fim_de_jogo@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 956BAF7E212B3CF900744BE7 /* Tela_fim_de_jogo@3x.png */; };
 		956BAF88212B3CF900744BE7 /* tela_Jogar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 956BAF7F212B3CF900744BE7 /* tela_Jogar@2x.png */; };
 		9931ED88212C916700BFBC3F /* ScoreFinal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9931ED87212C916700BFBC3F /* ScoreFinal.swift */; };
-		9931ED90212CA3DA00BFBC3F /* Jua in Resources */ = {isa = PBXBuildFile; fileRef = 9931ED8F212CA3DA00BFBC3F /* Jua */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		1533F58121290FB7000190F9 /* Pipa.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; name = Pipa.atlas; path = cenarios/Pipa.atlas; sourceTree = SOURCE_ROOT; };
+		1566CA13212CAC4900C8A76F /* Jua */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Jua; path = fontes/Jua; sourceTree = SOURCE_ROOT; };
 		15F250DC2125EFDE00E584CD /* Alba.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Alba.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		15F250DF2125EFDE00E584CD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		15F250E12125EFDE00E584CD /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -58,7 +59,6 @@
 		956BAF7E212B3CF900744BE7 /* Tela_fim_de_jogo@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Tela_fim_de_jogo@3x.png"; path = "Telas/Tela_fim_de_jogo@3x.png"; sourceTree = SOURCE_ROOT; };
 		956BAF7F212B3CF900744BE7 /* tela_Jogar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "tela_Jogar@2x.png"; path = "Telas/tela_Jogar@2x.png"; sourceTree = SOURCE_ROOT; };
 		9931ED87212C916700BFBC3F /* ScoreFinal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreFinal.swift; sourceTree = "<group>"; };
-		9931ED8F212CA3DA00BFBC3F /* Jua */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Jua; path = ../../../../Downloads/Jua; sourceTree = "<group>"; };
 		C656F154638E800B85C3F59A /* Pods-Alba.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Alba.release.xcconfig"; path = "Pods/Target Support Files/Pods-Alba/Pods-Alba.release.xcconfig"; sourceTree = "<group>"; };
 		E35B4B50FE7E7314D5641516 /* Pods_Alba.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Alba.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F9CA9C93F79BCA203826C04F /* Pods-Alba.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Alba.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Alba/Pods-Alba.debug.xcconfig"; sourceTree = "<group>"; };
@@ -145,7 +145,7 @@
 		9931ED89212CA36E00BFBC3F /* New Group */ = {
 			isa = PBXGroup;
 			children = (
-				9931ED8F212CA3DA00BFBC3F /* Jua */,
+				1566CA13212CAC4900C8A76F /* Jua */,
 			);
 			path = "New Group";
 			sourceTree = "<group>";
@@ -220,7 +220,7 @@
 				15F250E42125EFDE00E584CD /* Actions.sks in Resources */,
 				1533F58221290FB7000190F9 /* Pipa.atlas in Resources */,
 				956BAF86212B3CF900744BE7 /* Tela_fim_de_jogo@2x.png in Resources */,
-				9931ED90212CA3DA00BFBC3F /* Jua in Resources */,
+				1566CA14212CAC4900C8A76F /* Jua in Resources */,
 				956BAF88212B3CF900744BE7 /* tela_Jogar@2x.png in Resources */,
 				956BAF85212B3CF900744BE7 /* Tela_tutorial.png in Resources */,
 				956BAF80212B3CF900744BE7 /* tela_Jogar@3x.png in Resources */,

@@ -22,8 +22,6 @@ class RivalKite{
     var kite = SKSpriteNode()
     var line = UIBezierPath()
     let nodeLine = SKShapeNode()
-    
-    
 }
 
 

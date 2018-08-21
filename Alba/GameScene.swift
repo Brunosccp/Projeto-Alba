@@ -66,6 +66,9 @@ class GameScene: SKScene {
     var counterTimer = Timer()
     var counterStartValue = 0
     var sFinal = 0
+    
+    //label de pontuação quando corta
+    var rivalCutLabel = SKLabelNode()
 
     
     override func didMove(to view: SKView) {
@@ -73,6 +76,11 @@ class GameScene: SKScene {
         //Score
         scoreLabel = childNode(withName: "scoreLabel") as! SKLabelNode
         rivalCutLabel.text = "+50"
+        rivalCutLabel.fontName = "Jua"
+        rivalCutLabel.color = .orange
+        rivalCutLabel.fontColor = .orange
+        
+        
         
         scoreLabel.text = "Score: \(PhysicsCategory.score)"
         scoreLabel.fontName = "Jua"
@@ -345,7 +353,18 @@ class GameScene: SKScene {
                 
                 rivalKite[i].nodeLine.removeFromParent()
                 isTouching[i] = false
+                
                 PhysicsCategory.score += 50
+                rivalKite[i].kite.removeAllActions()
+                let actions = AnimationPath.kiteDeath()
+                
+                rivalKite[i].kite.run(actions.0)
+                rivalKite[i].kite.run(actions.1)
+                rivalKite[i].kite.zRotation = 90
+                
+                //
+                rivalCutLabelAnimation(i: i, position: rivalKite[i].kite.position)
+                
                 
             }
         }
@@ -354,10 +373,21 @@ class GameScene: SKScene {
         rivalCutLabel.position = position
         addChild(rivalCutLabel)
         
+        Timer.scheduledTimer(withTimeInterval: 0.20, repeats: true, block: {thread in
+            self.rivalCutLabel.fontSize += 1
+            
+            if(self.rivalCutLabel.fontSize == 23){
+                thread.invalidate()
+            }
+            
+            
+        })
+        
         Timer.scheduledTimer(withTimeInterval: 3, repeats: false, block: {thread in
             print("3 seg depois")
             self.rivalCutLabel.removeFromParent()
             })
+            rivalCutLabel.fontSize = 18
 
     }
     //Score
