@@ -27,6 +27,8 @@ var blow: BlowIdentifier?
 
 class GameViewController: UIViewController {
     
+
+    
     override func motionBegan(_ motion: UIEventSubtype, with event: UIEvent?) {
         if motion == .motionShake {
             if let skView = view as? SKView, let scene = skView.scene as? GameScene {
@@ -64,6 +66,7 @@ class GameViewController: UIViewController {
                 sceneNode.scaleMode = .aspectFill
                 sceneNode.viewController = self
                 sceneNode.blow = blow
+                //sceneNode.counter = counter
                 
                 // Present the scene
                 if let view = self.view as! SKView? {
@@ -100,4 +103,5 @@ class GameViewController: UIViewController {
     override var prefersStatusBarHidden: Bool {
         return true
     }
+    
 }

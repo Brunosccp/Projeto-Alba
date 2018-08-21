@@ -17,6 +17,8 @@ struct PhysicsCategory {
     static let pipaRival : UInt32 = 0x1 << 5
     
     static let communityTrigger: UInt32 = 0x1 << 6
+    
+    static var score = 0
 }
 
 class GameScene: SKScene {
@@ -61,20 +63,21 @@ class GameScene: SKScene {
     
     //label de score
     var scoreLabel = SKLabelNode()
-    var counter = 0
     var counterTimer = Timer()
     var counterStartValue = 0
+    var sFinal = 0
 
+    
     override func didMove(to view: SKView) {
         
         //Score
         scoreLabel = childNode(withName: "scoreLabel") as! SKLabelNode
         
-        scoreLabel.text = "Score: \(counter)"
+        scoreLabel.text = "Score: \(PhysicsCategory.score)"
         //scoreLabel.fontName = ""
         //scoreLabel.fontSize =
         
-        counter = counterStartValue
+        PhysicsCategory.score = counterStartValue
         startCounter()
         
         //criando caminho das casas
@@ -372,7 +375,7 @@ class GameScene: SKScene {
             if(isTouching[i] == true){
                 rivalKite[i].nodeLine.removeFromParent()
                 isTouching[i] = false
-                counter += 50
+                PhysicsCategory.score += 50
                 
             }
         }
@@ -384,19 +387,19 @@ class GameScene: SKScene {
     }
     
     @objc func incrementCounter(){
-        counter += 10
+        PhysicsCategory.score += 10
     }
     
     func updateLabels(){
         Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true, block: {thread in
-            self.scoreLabel.text = "Score: \(self.counter)"
-            
+            self.scoreLabel.text = "Score: \(PhysicsCategory.score)"
             if(self.gameStarted == false){
                 thread.invalidate()
             }
         })
     }
     
+
 }
 extension GameScene : SKPhysicsContactDelegate{
     func didBegin(_ contact: SKPhysicsContact){
@@ -476,14 +479,18 @@ extension GameScene : SKPhysicsContactDelegate{
                 self.removeFromParent()
                 PhysicsCategory.communityAlreadyHit = [false, false, false]
                 
+                //self.viewController?.teste()
+                
                 //blow?.stop()
                 gameStarted = false
-    
                 self.viewController?.performSegue(withIdentifier: "gameOver", sender: self)
-                print("GAME OVER VIADO")
+                //print("GAME OVER VIADO")
             }
         }
         //print("o contato foi entre \(contact.bodyA.node?.name) e \(contact.bodyB.node?.name) bodyB: \(bodyB)")
         
+        
     }
+    
+   
 }

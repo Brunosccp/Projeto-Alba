@@ -101,10 +101,10 @@
             </objects>
             <point key="canvasLocation" x="721" y="95"/>
         </scene>
-        <!--View Controller-->
+        <!--Score Final-->
         <scene sceneID="5D4-7u-gpL">
             <objects>
-                <viewController id="WHn-Bo-ALh" sceneMemberID="viewController">
+                <viewController id="WHn-Bo-ALh" customClass="ScoreFinal" customModule="Alba" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="D1U-Eg-eoK">
                         <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -123,6 +123,14 @@
                                     <segue destination="BV1-FR-VrT" kind="show" id="Jy3-EH-IRP"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IlB-Yj-Xz3">
+                                <rect key="frame" x="382" y="158" width="42" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <accessibility key="accessibilityConfiguration" identifier="scoreFinal"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -131,6 +139,9 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="NjR-41-xKF"/>
                     </view>
+                    <connections>
+                        <outlet property="scoreFinal" destination="IlB-Yj-Xz3" id="4s3-12-gQB"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Rzo-GC-ZtE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -143,6 +154,6 @@
         <image name="tela_Jogar.png" width="667" height="375"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="t1h-0t-XDF"/>
+        <segue reference="Jy3-EH-IRP"/>
     </inferredMetricsTieBreakers>
 </document>
