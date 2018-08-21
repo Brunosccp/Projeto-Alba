@@ -78,8 +78,8 @@ class GameScene: SKScene {
         scoreLabel = childNode(withName: "scoreLabel") as! SKLabelNode
         rivalCutLabel.text = "+50"
         rivalCutLabel.fontName = "Jua"
-        rivalCutLabel.color = .orange
-        rivalCutLabel.fontColor = .orange
+        rivalCutLabel.color = .white
+        rivalCutLabel.fontColor = .white
         
         
         scoreLabel.text = "Score: \(PhysicsCategory.score)"
