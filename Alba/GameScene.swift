@@ -75,7 +75,6 @@ class GameScene: SKScene {
         
         scoreLabel.text = "Score: \(PhysicsCategory.score)"
         scoreLabel.fontName = "Jua"
-        //scoreLabel.fontSize =
         
         PhysicsCategory.score = counterStartValue
         startCounter()
