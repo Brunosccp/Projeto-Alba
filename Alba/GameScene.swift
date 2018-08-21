@@ -59,7 +59,6 @@ class GameScene: SKScene {
     //microfone
     var blow: BlowIdentifier? = nil
 
-    
     override func didMove(to view: SKView) {
         
         
@@ -94,30 +93,9 @@ class GameScene: SKScene {
     
     //função que cria as casas com o physics body em relação ao alfa da textura
     func createHouses(){
-        var casasCircular: [SKSpriteNode] = []
-        
-        //pegando somente a textura das imagens
-        var comunidadeTextura : [SKTexture] = []
-        for i in 0...2{
-            comunidadeTextura.append(SKTexture(imageNamed: "comunidade\(i+1)"))
-        }
-        
-        //precisa-se criar node com física circular antes de criar a fisica pelo alfa da img
-        for i in 0...2{
-            casasCircular.append(SKSpriteNode(texture: comunidadeTextura[i]))
-            casasCircular[i].physicsBody = SKPhysicsBody(circleOfRadius: max(casasCircular[i].size.width / 2, casasCircular[i].size.height / 2))
-            casasCircular[i].setScale(0.25)
-        }
-        
         //criando a física pelo alfa da textura
         for i in 0...2{
             community.append(childNode(withName: "comunidade\(i+1)") as! SKSpriteNode)
-            
-            //salvando as propiedades físicas da comunidade na lista
-            communityPhysicsBody.append(SKPhysicsBody(texture: comunidadeTextura[i],
-                                                          size: CGSize(width: casasCircular[i].size.width, height: casasCircular[i].size.height)))
-            
-            community[i].physicsBody = communityPhysicsBody[i]
         }
         
         //Fisica e Colisão
@@ -128,6 +106,9 @@ class GameScene: SKScene {
             community[i].physicsBody?.affectedByGravity = false
             community[i].physicsBody?.isDynamic = false
             community[i].physicsBody?.pinned = false
+            
+            //jogando o corpo físico na variavel, pois é usado posteriormente
+            communityPhysicsBody.append(community[i].physicsBody!)
         }
         //fazendo action de comunidades irem como uma esteira para a esquerda
         let move = SKAction.follow(path.cgPath, asOffset: true, orientToPath: false, speed: 50)
@@ -145,9 +126,6 @@ class GameScene: SKScene {
             let move = SKAction.follow(path.cgPath, asOffset: true, orientToPath: false, speed: 50)
             sky[i].run(SKAction.repeatForever(move))
         }
-        
-        
-        
     }
     func createTriggers(){
         comunnityTrigger = childNode(withName: "communityTrigger") as! SKSpriteNode
@@ -256,9 +234,7 @@ class GameScene: SKScene {
         for i in 0...2{
             rivalKite[i].kite = childNode(withName: "rivalKite\(i+1)") as! SKSpriteNode
             
-            
-            
-            
+            //colocando animação de cada pipa
             let move = AnimationPath.get()
             rivalKite[i].kite.run(move)
             let moveLeft = SKAction.follow(path.cgPath, asOffset: true, orientToPath: false, speed: 50)
@@ -442,7 +418,7 @@ extension GameScene : SKPhysicsContactDelegate{
                 self.removeAllActions()
                 self.removeAllChildren()
                 self.removeFromParent()
-                
+                PhysicsCategory.communityAlreadyHit = [false, false, false]
                 
                 //blow?.stop()
                 gameStarted = false
