@@ -70,6 +70,8 @@ class GameScene: SKScene {
     //label de pontuação quando corta
     var rivalCutLabel = SKLabelNode()
 
+    //Musica
+    var backgroundMusic: SKAudioNode!
     
     override func didMove(to view: SKView) {
         //Score
@@ -114,11 +116,20 @@ class GameScene: SKScene {
         updateLabels()
         
         self.physicsWorld.contactDelegate = self
+        
+        //Musica
+        if let musicURL = Bundle.main.url(forResource: "funkzao", withExtension: "wav") {
+            backgroundMusic = SKAudioNode(url: musicURL)
+            addChild(backgroundMusic)
+        }
+        
+        backgroundMusic.run(SKAction.play())
     }
     
     //função que cria as casas com o physics body em relação ao alfa da textura
     
     func createHouses(){
+      
         //criando a física pelo alfa da textura
         for i in 0...2{
             community.append(childNode(withName: "comunidade\(i+1)") as! SKSpriteNode)

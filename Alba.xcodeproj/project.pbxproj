@@ -32,6 +32,7 @@
 		956BAF87212B3CF900744BE7 /* Tela_fim_de_jogo@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 956BAF7E212B3CF900744BE7 /* Tela_fim_de_jogo@3x.png */; };
 		956BAF88212B3CF900744BE7 /* tela_Jogar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 956BAF7F212B3CF900744BE7 /* tela_Jogar@2x.png */; };
 		9931ED88212C916700BFBC3F /* ScoreFinal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9931ED87212C916700BFBC3F /* ScoreFinal.swift */; };
+		9931ED94212CB75C00BFBC3F /* funkzao.wav in Resources */ = {isa = PBXBuildFile; fileRef = 9931ED93212CB75C00BFBC3F /* funkzao.wav */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -61,6 +62,7 @@
 		956BAF7E212B3CF900744BE7 /* Tela_fim_de_jogo@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Tela_fim_de_jogo@3x.png"; path = "Telas/Tela_fim_de_jogo@3x.png"; sourceTree = SOURCE_ROOT; };
 		956BAF7F212B3CF900744BE7 /* tela_Jogar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "tela_Jogar@2x.png"; path = "Telas/tela_Jogar@2x.png"; sourceTree = SOURCE_ROOT; };
 		9931ED87212C916700BFBC3F /* ScoreFinal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreFinal.swift; sourceTree = "<group>"; };
+		9931ED93212CB75C00BFBC3F /* funkzao.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = funkzao.wav; sourceTree = "<group>"; };
 		C656F154638E800B85C3F59A /* Pods-Alba.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Alba.release.xcconfig"; path = "Pods/Target Support Files/Pods-Alba/Pods-Alba.release.xcconfig"; sourceTree = "<group>"; };
 		E35B4B50FE7E7314D5641516 /* Pods_Alba.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Alba.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F9CA9C93F79BCA203826C04F /* Pods-Alba.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Alba.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Alba/Pods-Alba.debug.xcconfig"; sourceTree = "<group>"; };
@@ -109,6 +111,7 @@
 				1533F58121290FB7000190F9 /* Pipa.atlas */,
 				15F250E32125EFDE00E584CD /* Actions.sks */,
 				15F250E72125EFDE00E584CD /* GameViewController.swift */,
+				9931ED93212CB75C00BFBC3F /* funkzao.wav */,
 				15F250E92125EFDE00E584CD /* Main.storyboard */,
 				15F250EC2125EFDE00E584CD /* Assets.xcassets */,
 				1566CA15212CB52000C8A76F /* Fim_de_jogo.png */,
@@ -227,6 +230,7 @@
 				1566CA14212CAC4900C8A76F /* Jua in Resources */,
 				956BAF88212B3CF900744BE7 /* tela_Jogar@2x.png in Resources */,
 				956BAF85212B3CF900744BE7 /* Tela_tutorial.png in Resources */,
+				9931ED94212CB75C00BFBC3F /* funkzao.wav in Resources */,
 				956BAF80212B3CF900744BE7 /* tela_Jogar@3x.png in Resources */,
 				956BAF84212B3CF900744BE7 /* Tela_fim_de_jogo.png in Resources */,
 			);

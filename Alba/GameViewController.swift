@@ -10,7 +10,6 @@ import UIKit
 import SpriteKit
 import GameplayKit
 
-
 //Essa é a capivara do SIGABRT
 //
 //    　　 /)─―ヘ
@@ -27,7 +26,7 @@ var blow: BlowIdentifier?
 
 class GameViewController: UIViewController {
     
-
+   
     
     override func motionBegan(_ motion: UIEventSubtype, with event: UIEvent?) {
         if motion == .motionShake {
@@ -37,7 +36,7 @@ class GameViewController: UIViewController {
         }
     }
     
-    func theFunction(){
+    func configureBlow(){
         struct Holder { static var called = false }
         
         if !Holder.called {
@@ -52,13 +51,20 @@ class GameViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+    
         
-        theFunction()
+        
+        configureBlow()
         // Load 'GameScene.sks' as a GKScene. This provides gameplay related content
         // including entities and graphs.
         
         
+        self.startGame()
         
+    }
+    
+    private func startGame(){
+     
         if let scene = GKScene(fileNamed: "GameScene") {
             // Get the SKScene from the loaded GKScene
             if let sceneNode = scene.rootNode as! GameScene? {
@@ -81,6 +87,10 @@ class GameViewController: UIViewController {
                 }
             }
         }
+    }
+    
+    @IBAction func unwindToGameViewController(segue: UIStoryboardSegue){
+        self.startGame()
     }
 
     override var shouldAutorotate: Bool {
