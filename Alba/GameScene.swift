@@ -76,6 +76,7 @@ class GameScene: SKScene {
     override func didMove(to view: SKView) {
         //Score
         scoreLabel = childNode(withName: "scoreLabel") as! SKLabelNode
+        scoreLabel.text = "0"
         rivalCutLabel.text = "+50"
         rivalCutLabel.fontName = "Jua"
         rivalCutLabel.color = .white
@@ -230,26 +231,26 @@ class GameScene: SKScene {
         })
     }
     
-//    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        if gameStarted == false{
-//            gameStarted = true
-//
-//
-//
-//            kite.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
-//            kite.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 1))
-//
-//            kiteAttacher.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
-//            kiteAttacher.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 1))
-//        }else{
-//            kite.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
-//            kite.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 1))
-//            
-//            kiteAttacher.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
-//            kiteAttacher.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 1))
-//        }
-//
-//    }
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if gameStarted == false{
+            gameStarted = true
+
+
+
+            kite.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
+            kite.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 1))
+
+            kiteAttacher.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
+            kiteAttacher.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 1))
+        }else{
+            kite.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
+            kite.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 1))
+            
+            kiteAttacher.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
+            kiteAttacher.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 1))
+        }
+
+    }
     
     func createRivalKites(){
         for _ in 1...3{
@@ -269,7 +270,7 @@ class GameScene: SKScene {
     }
     func createRivalLines(){
         for i in 0...2{
-            rivalKite[i].line.move(to: CGPoint(x: self.frame.maxX, y: 100))
+            rivalKite[i].line.move(to: CGPoint(x: self.frame.maxX, y: 50))
             rivalKite[i].line.addLine(to: rivalKite[0].kite.position)
             
             rivalKite[i].nodeLine.path = rivalKite[0].line.cgPath
@@ -373,6 +374,7 @@ class GameScene: SKScene {
                 
                 //
                 rivalCutLabelAnimation(i: i, position: rivalKite[i].kite.position)
+                rivalCutLabel.fontSize = 8
                 
                 
             }
@@ -382,7 +384,7 @@ class GameScene: SKScene {
         rivalCutLabel.position = position
         addChild(rivalCutLabel)
         
-        Timer.scheduledTimer(withTimeInterval: 0.20, repeats: true, block: {thread in
+        Timer.scheduledTimer(withTimeInterval: 0.05, repeats: true, block: {thread in
             self.rivalCutLabel.fontSize += 1
             
             if(self.rivalCutLabel.fontSize == 23){
@@ -396,16 +398,20 @@ class GameScene: SKScene {
             print("3 seg depois")
             self.rivalCutLabel.removeFromParent()
             })
-            rivalCutLabel.fontSize = 18
+            rivalCutLabel.fontSize = 8
 
     }
     //Score
     func startCounter(){
         counterTimer = Timer.scheduledTimer(timeInterval: 3.0, target: self, selector: #selector(incrementCounter), userInfo: nil, repeats: true)
+
     }
-    
     @objc func incrementCounter(){
         PhysicsCategory.score += 10
+        
+        if(self.gameStarted == false){
+            counterTimer.invalidate()
+        }
     }
     
     func updateLabels(){
@@ -416,7 +422,6 @@ class GameScene: SKScene {
             }
         })
     }
-
 }
 extension GameScene : SKPhysicsContactDelegate{
     func didBegin(_ contact: SKPhysicsContact){
@@ -524,9 +529,5 @@ extension GameScene : SKPhysicsContactDelegate{
             }
         }
         //print("o contato foi entre \(contact.bodyA.node?.name) e \(contact.bodyB.node?.name) bodyB: \(bodyB)")
-        
-        
     }
-    
-   
 }

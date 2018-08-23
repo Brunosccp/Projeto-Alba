@@ -17,10 +17,12 @@ class AnimationPath{
         
         let divider = 8.0
         
+        let scale = 1.5
+        
         //0 path
         let singlePath = UIBezierPath()
         singlePath.move(to: CGPoint(x: 0, y: 0))
-        singlePath.addLine(to: CGPoint(x: 13.594, y: -34.297))
+        singlePath.addLine(to: CGPoint(x: 13.594 * scale, y: -34.297 * scale))
         
         action = SKAction.follow(singlePath.cgPath, asOffset: true, orientToPath: false, duration: 3.6 / divider)
         actions.append(action)
@@ -28,7 +30,7 @@ class AnimationPath{
         //11 path
         singlePath.removeAllPoints()
         singlePath.move(to: CGPoint(x: 0, y: 0))
-        singlePath.addLine(to: CGPoint(x: 50.958, y: -14.5))
+        singlePath.addLine(to: CGPoint(x: 50.958 * scale, y: -14.5 * scale))
         
         action = SKAction.follow(singlePath.cgPath, asOffset: true, orientToPath: false, duration: 3.6 / divider)
         actions.append(action)
@@ -36,7 +38,7 @@ class AnimationPath{
         //22 path
         singlePath.removeAllPoints()
         singlePath.move(to: CGPoint(x: 0, y: 0))
-        singlePath.addLine(to: CGPoint(x: 43.568, y: 21.999))
+        singlePath.addLine(to: CGPoint(x: 43.568 * scale, y: 21.999 * scale))
 
         action = SKAction.follow(singlePath.cgPath, asOffset: true, orientToPath: false, duration: 3.6 / divider)
         actions.append(action)
@@ -44,7 +46,7 @@ class AnimationPath{
         //33 path
         singlePath.removeAllPoints()
         singlePath.move(to: CGPoint(x: 0, y: 0))
-        singlePath.addLine(to: CGPoint(x: 10.805, y: 20.361))
+        singlePath.addLine(to: CGPoint(x: 10.805 * scale, y: 20.361 * scale))
         
         action = SKAction.follow(singlePath.cgPath, asOffset: true, orientToPath: false, duration: 3.6 / divider)
         actions.append(action)
@@ -52,7 +54,7 @@ class AnimationPath{
         //44 path
         singlePath.removeAllPoints()
         singlePath.move(to: CGPoint(x: 0, y: 0))
-        singlePath.addLine(to: CGPoint(x: -29.852 , y: -13.86))
+        singlePath.addLine(to: CGPoint(x: -29.852 * scale , y: -13.86 * scale))
         
         action = SKAction.follow(singlePath.cgPath, asOffset: true, orientToPath: false, duration: 3.6 / divider)
         actions.append(action)
@@ -60,7 +62,7 @@ class AnimationPath{
         //55 path
         singlePath.removeAllPoints()
         singlePath.move(to: CGPoint(x: 0, y: 0))
-        singlePath.addLine(to: CGPoint(x:-27.599 , y: -7.521))
+        singlePath.addLine(to: CGPoint(x:-27.599 * scale, y: -7.521 * scale))
         
         action = SKAction.follow(singlePath.cgPath, asOffset: true, orientToPath: false, duration: 3.6 / divider)
         actions.append(action)
@@ -68,14 +70,14 @@ class AnimationPath{
         //66 path
         singlePath.removeAllPoints()
         singlePath.move(to: CGPoint(x: 0, y: 0))
-        singlePath.addLine(to: CGPoint(x: -41.543, y: 14.058))
+        singlePath.addLine(to: CGPoint(x: -41.543 * scale, y: 14.058 * scale))
         action = SKAction.follow(singlePath.cgPath, asOffset: true, orientToPath: false, duration: 3.6 / divider)
         actions.append(action)
         
         //77 path
         singlePath.removeAllPoints()
         singlePath.move(to: CGPoint(x: 0, y: 0))
-        singlePath.addLine(to: CGPoint(x: -19.931, y: 13.76))
+        singlePath.addLine(to: CGPoint(x: -19.931 * scale, y: 13.76 * scale))
         
         action = SKAction.follow(singlePath.cgPath, asOffset: true, orientToPath: false, duration: 3.6 / divider)
         actions.append(action)
