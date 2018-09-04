@@ -6,6 +6,8 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -23,10 +25,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Tela_tutorial" translatesAutoresizingMaskIntoConstraints="NO" id="4Qo-dx-XvW">
-                                <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jbg-tm-IDZ">
                                 <rect key="frame" x="200" y="285" width="267" height="52"/>
                                 <constraints>
@@ -37,11 +35,21 @@
                                     <segue destination="BV1-FR-VrT" kind="show" animates="NO" id="t1h-0t-XDF"/>
                                 </connections>
                             </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Tela_tutorial" translatesAutoresizingMaskIntoConstraints="NO" id="4Qo-dx-XvW">
+                                <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="4Qo-dx-XvW" secondAttribute="height" multiplier="667:375" id="zA4-qK-Jcf"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="jbg-tm-IDZ" firstAttribute="centerX" secondItem="YzJ-OK-HOi" secondAttribute="centerX" id="1cd-4B-LhF"/>
+                            <constraint firstItem="4Qo-dx-XvW" firstAttribute="top" secondItem="YzJ-OK-HOi" secondAttribute="top" id="6DH-OO-TCr"/>
                             <constraint firstItem="4bp-b9-VFK" firstAttribute="bottom" secondItem="jbg-tm-IDZ" secondAttribute="bottom" constant="38" id="Aty-jG-ohl"/>
+                            <constraint firstItem="4Qo-dx-XvW" firstAttribute="centerX" secondItem="YzJ-OK-HOi" secondAttribute="centerX" id="IOU-nq-AZs"/>
+                            <constraint firstItem="4Qo-dx-XvW" firstAttribute="top" secondItem="YzJ-OK-HOi" secondAttribute="top" id="wTF-wQ-EZQ"/>
+                            <constraint firstAttribute="bottom" secondItem="4Qo-dx-XvW" secondAttribute="bottom" id="zis-jZ-uC9"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="4bp-b9-VFK"/>
                     </view>
@@ -86,7 +94,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7dT-jd-QCk" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-160" y="-414"/>
+            <point key="canvasLocation" x="-160.25179856115108" y="-414.38848920863313"/>
         </scene>
         <!--Game View Controller-->
         <scene sceneID="tXr-a1-R10">
@@ -114,47 +122,50 @@
                         <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Tela_fim_de_jogo-1" translatesAutoresizingMaskIntoConstraints="NO" id="yet-Zl-cfG">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Tela_fim_de_jogo-1" translatesAutoresizingMaskIntoConstraints="NO" id="yet-Zl-cfG">
                                 <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VL2-bT-ymB">
-                                <rect key="frame" x="147" y="282" width="373" height="55"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="55" id="mdI-bI-Byz"/>
-                                    <constraint firstAttribute="width" constant="373" id="xUz-DT-HVt"/>
+                                    <constraint firstAttribute="width" secondItem="yet-Zl-cfG" secondAttribute="height" multiplier="667:375" id="rro-Uc-AOW"/>
                                 </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Q3h-Bq-WZs">
+                                <rect key="frame" x="283" y="105" width="100" height="37.5"/>
+                                <fontDescription key="fontDescription" name="Jua-Regular" family="Jua" pointSize="40"/>
+                                <color key="textColor" red="0.93725490196078431" green="0.41568627450980394" blue="0.058823529411764705" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VL2-bT-ymB">
+                                <rect key="frame" x="133.5" y="272" width="400.5" height="75"/>
+                                <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="deviceRGB"/>
                                 <connections>
                                     <segue destination="8CV-Is-jRc" kind="unwind" unwindAction="unwindToGameViewControllerWithSegue:" id="EVY-HN-kqC"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IlB-Yj-Xz3">
-                                <rect key="frame" x="287" y="110" width="92" height="40"/>
-                                <accessibility key="accessibilityConfiguration" identifier="scoreFinal"/>
-                                <fontDescription key="fontDescription" name="Jua-Regular" family="Jua" pointSize="40"/>
-                                <color key="textColor" red="0.93725490196078431" green="0.41960784313725491" blue="0.066666666666666666" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="IlB-Yj-Xz3" firstAttribute="centerX" secondItem="D1U-Eg-eoK" secondAttribute="centerX" id="3i9-Tx-HVI"/>
-                            <constraint firstItem="VL2-bT-ymB" firstAttribute="centerX" secondItem="D1U-Eg-eoK" secondAttribute="centerX" id="ErH-bS-LaX"/>
-                            <constraint firstItem="IlB-Yj-Xz3" firstAttribute="leading" secondItem="NjR-41-xKF" secondAttribute="leading" constant="287" id="Sc6-Ol-Gy3"/>
-                            <constraint firstItem="NjR-41-xKF" firstAttribute="trailing" secondItem="IlB-Yj-Xz3" secondAttribute="trailing" constant="288" id="SeA-2h-0mZ"/>
-                            <constraint firstItem="IlB-Yj-Xz3" firstAttribute="top" secondItem="NjR-41-xKF" secondAttribute="top" constant="110" id="eeV-OO-t0S"/>
-                            <constraint firstItem="NjR-41-xKF" firstAttribute="bottom" secondItem="VL2-bT-ymB" secondAttribute="bottom" constant="38" id="fpX-OW-a7k"/>
+                            <constraint firstItem="Q3h-Bq-WZs" firstAttribute="width" secondItem="D1U-Eg-eoK" secondAttribute="width" multiplier="0.15" id="67c-4A-uz9"/>
+                            <constraint firstItem="yet-Zl-cfG" firstAttribute="top" secondItem="D1U-Eg-eoK" secondAttribute="top" id="9pm-Gx-bbl"/>
+                            <constraint firstItem="VL2-bT-ymB" firstAttribute="top" secondItem="D1U-Eg-eoK" secondAttribute="centerY" multiplier="1.45" id="Mdh-pN-3Pc"/>
+                            <constraint firstItem="Q3h-Bq-WZs" firstAttribute="centerX" secondItem="D1U-Eg-eoK" secondAttribute="centerX" id="Qn5-wQ-blx"/>
+                            <constraint firstItem="VL2-bT-ymB" firstAttribute="width" secondItem="D1U-Eg-eoK" secondAttribute="width" multiplier="0.6" id="RdT-3w-b6n"/>
+                            <constraint firstItem="VL2-bT-ymB" firstAttribute="height" secondItem="D1U-Eg-eoK" secondAttribute="height" multiplier="0.2" id="SP3-rK-i4G"/>
+                            <constraint firstItem="Q3h-Bq-WZs" firstAttribute="top" secondItem="D1U-Eg-eoK" secondAttribute="centerY" multiplier="0.56" id="bOJ-LM-c7o"/>
+                            <constraint firstItem="yet-Zl-cfG" firstAttribute="centerX" secondItem="D1U-Eg-eoK" secondAttribute="centerX" id="g95-rc-b9f"/>
+                            <constraint firstAttribute="bottom" secondItem="yet-Zl-cfG" secondAttribute="bottom" id="hja-o0-d26"/>
+                            <constraint firstItem="Q3h-Bq-WZs" firstAttribute="height" secondItem="D1U-Eg-eoK" secondAttribute="height" multiplier="0.1" id="mcS-YL-ZcP"/>
+                            <constraint firstItem="VL2-bT-ymB" firstAttribute="centerX" secondItem="D1U-Eg-eoK" secondAttribute="centerX" id="vIc-ZG-ctV"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="NjR-41-xKF"/>
                     </view>
                     <connections>
-                        <outlet property="scoreFinal" destination="IlB-Yj-Xz3" id="4s3-12-gQB"/>
+                        <outlet property="scoreFinal" destination="Q3h-Bq-WZs" id="YXi-Iq-yuC"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Rzo-GC-ZtE" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="8CV-Is-jRc" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="1593.5532233883059" y="93.599999999999994"/>
+            <point key="canvasLocation" x="1591.7541229385308" y="92"/>
         </scene>
     </scenes>
     <resources>

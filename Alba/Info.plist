@@ -27,7 +27,7 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>Microphone is necessary to play this game</string>
+	<string>The microphone is necessary to control your kite with your blow</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Jua-Regular.ttf</string>
